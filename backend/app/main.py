@@ -111,7 +111,16 @@ app = FastAPI(title="TokenPrint", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=[
+        # Local dev
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        # Deployed frontend (GitHub Pages + custom domain)
+        "https://sudharsanselvaraj.github.io",
+        "https://tokenprint.in",
+        "https://www.tokenprint.in",
+        "https://api.tokenprint.in",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
