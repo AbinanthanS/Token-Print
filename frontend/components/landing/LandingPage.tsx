@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
 import { assetUrl } from "@/lib/assets";
 import {
@@ -77,61 +77,10 @@ const FEATURE_ICONS: Record<string, React.ReactNode> = {
 };
 
 export function LandingPage() {
-  const [scrolled, setScrolled] = useState(false);
   const [showcaseTab, setShowcaseTab] = useState<number>(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="landing-root">
-      {/* 1. Restrained Navbar */}
-      <header className={`landing-nav${scrolled ? " scrolled" : ""}`}>
-        <div className="landing-nav-inner">
-          <Link href="/" className="landing-nav-brand">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={assetUrl("/tokenprint-logo.png")}
-              alt="TokenPrint"
-              className="brand-logo"
-              style={{ height: "36px", width: "auto" }}
-            />
-          </Link>
-
-          <nav className="landing-nav-items">
-            <Link href="/app?mode=explorer" className="landing-nav-item">
-              Architecture
-            </Link>
-            <Link href="/app?mode=generation" className="landing-nav-item">
-              Generation
-            </Link>
-            <Link href="/app?mode=walkthrough" className="landing-nav-item">
-              Walkthrough
-            </Link>
-            <Link href="/app?mode=debugger" className="landing-nav-item">
-              Debugger
-            </Link>
-            <Link href="/docs" className="landing-nav-item">
-              Docs
-            </Link>
-            <a
-              href="https://github.com/Sudharsanselvaraj/Token-Print"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="landing-nav-item github-nav-item"
-            >
-              <GithubIcon size={14} />
-              GitHub
-            </a>
-          </nav>
-        </div>
-      </header>
-
       {/* 2. Hero Section — Exact Marshal Experience */}
       <section className="landing-hero">
         <ComputationalHeroVisual />

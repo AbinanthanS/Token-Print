@@ -158,6 +158,8 @@ export interface UISlice {
   prevChapter: () => void;
   setWtModel: (id: string) => void;
   toggleWtPlay: () => void;
+  debuggerTool: string;
+  setDebuggerTool: (id: string) => void;
   embedMode: boolean;
   setEmbedMode: (b: boolean) => void;
   traceGalleryOpen: boolean;
@@ -206,6 +208,7 @@ export interface Arch3dSlice {
 export interface OrchestratorActions {
   loadGgufFile: (file: File) => Promise<void>;
   startGeneration: (prompt: string, opts?: GenOptions) => void;
+  stopGeneration: () => void;
   loadTrace: (file: File) => Promise<void>;
   classroomStep: () => void;
 }

@@ -740,6 +740,8 @@ async def ws_generate(ws: WebSocket) -> None:
             if gguf_path:
                 frames = _gguf_engine_for(gguf_path).generate(
                     prompt, int(max_new_tokens), int(top_k),
+                    temperature=temperature, top_p=top_p,
+                    decoding_mode=decoding_mode,
                 )
             else:
                 frames = engine.generate_steps(

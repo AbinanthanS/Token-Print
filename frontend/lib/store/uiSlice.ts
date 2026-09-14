@@ -27,6 +27,8 @@ export const createUISlice: StateCreator<StoreState, [], [], UISlice> = (set) =>
   prevChapter: () => set((state) => ({ wtChapter: Math.max(0, state.wtChapter - 1), wtPlaying: false })),
   setWtModel: (wtModel) => set({ wtModel }),
   toggleWtPlay: () => set((state) => ({ wtPlaying: !state.wtPlaying })),
+  debuggerTool: "overview",
+  setDebuggerTool: (debuggerTool) => set({ debuggerTool }),
   embedMode: false,
   setEmbedMode: (embedMode) => set({ embedMode }),
   traceGalleryOpen: false,
