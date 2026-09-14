@@ -99,6 +99,10 @@ falls on that not happening.
 files to touch and how to verify your fix. Read [CONTRIBUTING.md](CONTRIBUTING.md), pick one,
 send a PR. First-timers genuinely welcome.
 
+<a href="https://buymeacoffee.com/sudharsanselvaraj">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-black.png" alt="Support TokenPrint" height="40">
+</a>
+
 ## Creator & contributors
 
 <table>
