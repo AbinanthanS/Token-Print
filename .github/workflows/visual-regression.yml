@@ -142,9 +142,13 @@ jobs:
                 '--field update_snapshots=true',
               '```',
             ].join('\n');
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body,
-            });
+            try {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            } catch (err) {
+              console.log('Skipping PR comment (fork PR read-only token):', err.message);
+            }
