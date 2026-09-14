@@ -2,9 +2,6 @@
 
 import { useState } from "react";
 import { useStore, useUIMode } from "@/lib/store";
-import { useSnapshotUrl } from "@/lib/useSnapshotUrl";
-import { HFModelPicker } from "./HFModelPicker";
-import PluginManager from "./PluginManager";
 import ContributorDrawer from "./ContributorDrawer";
 import { Section, MetricGrid, Metric, IconButton, TOKENS } from "./primitives";
 
@@ -57,11 +54,7 @@ export default function ModelSummaryCard({
   const tileView = useStore((s) => s.tileView);
   const setTileView = useStore((s) => s.setTileView);
 
-  const { share } = useSnapshotUrl();
-  const [copied, setCopied] = useState(false);
-  const [pluginOpen, setPluginOpen] = useState(false);
   const [contribOpen, setContribOpen] = useState(false);
-  const [hfModalOpen, setHfModalOpen] = useState(false);
 
   const m = arch?.metadata;
   const modelName = m?.name || data?.model || "Qwen2.5-0.5B-Instruct";
@@ -74,17 +67,6 @@ export default function ModelSummaryCard({
   const hiddenSize = m?.hidden_size || data?.hidden_size || 896;
   const vocabSize = m?.vocab_size || 151936;
   const dtype = m?.torch_dtype || m?.quantization || "float32";
-
-  const handleShare = () => {
-    share();
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleReport = async () => {
-    const { generateHealthReport } = await import("@/lib/healthReport");
-    generateHealthReport(arch, data);
-  };
 
   return (
     <>
@@ -133,10 +115,7 @@ export default function ModelSummaryCard({
             borderTop: `1px solid ${TOKENS.border}`,
           }}
         >
-          <ModelAction label="HF Models" title="Search Hugging Face Hub & inspect model capabilities" onClick={() => setHfModalOpen(true)} />
-          <ModelAction label={copied ? "Copied" : "Share"} title="Copy snapshot URL" onClick={handleShare} />
-          <ModelAction label="Report" title="Generate & download Model Health Report" onClick={handleReport} />
-          <ModelAction label="Plugins" title="Manage TokenPrint extension plugins" onClick={() => setPluginOpen(true)} />
+          <ModelAction label="HF Models" title="Search Hugging Face Hub & inspect model capabilities" onClick={() => useStore.getState().setHfExplorerOpen(true)} />
           <ModelAction label="Contribute" title="Browse open issues & contribute to TokenPrint" onClick={() => setContribOpen(true)} />
           {mode === "explorer" && (
             <ModelAction
@@ -149,9 +128,7 @@ export default function ModelSummaryCard({
         </div>
       </Section>
 
-      <PluginManager open={pluginOpen} onClose={() => setPluginOpen(false)} />
       <ContributorDrawer open={contribOpen} onClose={() => setContribOpen(false)} />
-      <HFModelPicker isOpen={hfModalOpen} onClose={() => setHfModalOpen(false)} />
     </>
   );
 }

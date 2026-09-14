@@ -1,31 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, type CSSProperties } from "react";
+import { useEffect, useMemo } from "react";
 import { useStore } from "@/lib/store";
 import { CHAPTERS } from "@/lib/walkthrough";
 import { fmtShape } from "@/lib/format";
-import { getComponentDefinition } from "@/components/scenes/inspect/componentDefinitions";
 import DataProvenanceBadge from "./DataProvenanceBadge";
 import { TOKENS } from "./primitives";
-
-// Chapter id -> component definition id used to enrich the explainer.
-const OP_BY_CHAPTER: Record<string, string | null> = {
-  overview: null,
-  tokenizer: "op_embed",
-  embedding: "op_embed",
-  norm: "op_final_norm",
-  attention: "op_l0_attn_scores",
-  mlp: "op_l0_swiglu",
-  softmax: "op_l0_attn_softmax",
-};
 
 export default function WalkthroughInspector() {
   const data = useStore((s) => s.data);
   const loading = useStore((s) => s.loading);
   const analyze = useStore((s) => s.analyze);
   const chapterIdx = useStore((s) => s.wtChapter);
-  const nextChapter = useStore((s) => s.nextChapter);
-  const prevChapter = useStore((s) => s.prevChapter);
   const arch = useStore((s) => s.arch);
 
   useEffect(() => {
@@ -35,137 +21,199 @@ export default function WalkthroughInspector() {
 
   const idx = Math.min(chapterIdx, CHAPTERS.length - 1);
   const ch = CHAPTERS[idx];
-  const lines = data ? ch.build(data) : [];
 
   const m = arch?.metadata;
   const meta = useMemo(
-    () => ({
-      hiddenSize: m?.hidden_size || data?.hidden_size || 896,
-      numHeads: m?.num_heads || data?.num_heads || 14,
-      kvHeads: m?.num_kv_heads || 2,
-      headDim: Math.floor((m?.hidden_size || 896) / (m?.num_heads || 14)),
-      ffnSize: m?.ffn_size || 4864,
-      vocabSize: m?.vocab_size || 151936,
-      totalLayers: m?.num_layers || data?.num_layers || 24,
-    }),
-    [m, data]
+    () =>
+      m
+        ? {
+            hidden_size: m.hidden_size,
+            num_heads: m.num_heads,
+            num_kv_heads: m.num_kv_heads,
+            head_dim: m.head_dim,
+            ffn_size: m.ffn_size ?? 0,
+            vocab_size: m.vocab_size,
+            num_layers: m.num_layers,
+          }
+        : null,
+    [m]
   );
 
-  const opId = OP_BY_CHAPTER[ch.id] ?? null;
-  const comp = useMemo(
-    () => (opId ? getComponentDefinition(opId, 0, meta) : null),
-    [opId, meta]
-  );
-
-  const specRow: CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: "8px",
-    padding: "4px 0",
-    fontFamily: TOKENS.fontMono,
-    fontSize: "10.5px",
-    borderBottom: `1px solid ${TOKENS.border}`,
-  };
-  const specKey = { color: TOKENS.textMuted, fontSize: "9px", letterSpacing: "0.08em" };
-  const specVal = { color: TOKENS.textPrimary, textAlign: "right" as const };
+  const insp = data ? ch.inspector(data, meta) : null;
+  const equation = data ? ch.equation(data, meta) : null;
 
   return (
     <aside className="rightpanel rp-inspector">
+      {/* ── HEADER ──────────────────────────────────────────────────── */}
       <div className="rp-header">
         <span className="rp-header-title">WALKTHROUGH</span>
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={{ fontFamily: TOKENS.fontMono, fontSize: "10px", color: TOKENS.textMuted }}>
+          <span
+            style={{
+              fontFamily: TOKENS.fontMono,
+              fontSize: "10px",
+              color: TOKENS.textMuted,
+            }}
+          >
             CH {idx + 1}/{CHAPTERS.length}
           </span>
           {data && <DataProvenanceBadge origin="real" label="REAL" />}
         </div>
       </div>
 
+      {/* ── LOADING / EMPTY ─────────────────────────────────────────── */}
       {!data && (
         <div className="rp-section">
           <div className="rp-empty">
             {loading
-              ? "Running a real forward pass on “The cat sat on the mat.”…"
+              ? "Running a real forward pass on \u201cThe cat sat on the mat.\u201d\u2026"
               : "Run the forward pass to see real numbers at every step."}
           </div>
         </div>
       )}
 
-      {data && (
-        <div className="rp-section">
-          <div className="rp-section-header">
-            <span className="rp-section-title">{ch.title.toUpperCase()}</span>
-            <span style={{ fontFamily: TOKENS.fontMono, fontSize: "9px", color: TOKENS.textMuted, letterSpacing: "0.06em" }}>
-              {ch.scene}
-            </span>
+      {/* ── CHAPTER CONTENT ─────────────────────────────────────────── */}
+      {data && insp && (
+        <>
+          {/* Title */}
+          <div className="rp-section" style={{ paddingBottom: 0 }}>
+            <div className="rp-section-header">
+              <span className="rp-section-title">{ch.title.toUpperCase()}</span>
+              <span
+                style={{
+                  fontFamily: TOKENS.fontMono,
+                  fontSize: "9px",
+                  color: TOKENS.textMuted,
+                  letterSpacing: "0.06em",
+                }}
+              >
+                {ch.scene}
+              </span>
+            </div>
           </div>
-          {lines.map((l, i) => (
-            <p
-              key={i}
-              style={{
-                margin: "0 0 8px",
-                fontSize: "12px",
-                lineHeight: 1.55,
-                color: TOKENS.textSecondary,
-              }}
+
+          {/* Explanation */}
+          <div className="rp-section">
+            {insp.explanation.map((line, i) => (
+              <p
+                key={i}
+                style={{
+                  margin: "0 0 8px",
+                  fontSize: "12px",
+                  lineHeight: 1.6,
+                  color: TOKENS.textSecondary,
+                }}
+              >
+                {line}
+              </p>
+            ))}
+          </div>
+
+          {/* Equation */}
+          {equation && (
+            <div
+              className="rp-section"
+              style={{ paddingTop: 0, paddingBottom: 0 }}
             >
-              {l}
-            </p>
-          ))}
-        </div>
-      )}
+              <div
+                style={{
+                  fontFamily: TOKENS.fontMono,
+                  fontSize: "11px",
+                  lineHeight: 1.5,
+                  color: TOKENS.textPrimary,
+                  background: "#0d0d0d",
+                  border: `1px solid ${TOKENS.border}`,
+                  borderRadius: TOKENS.radiusMd,
+                  padding: "8px 10px",
+                  overflowX: "auto",
+                }}
+              >
+                {equation}
+              </div>
+            </div>
+          )}
 
-      {comp && (
-        <div className="rp-section op-context-box">
-          <div className="op-ctx-header">
-            <span className="op-ctx-title">{comp.title}</span>
-            <span className="op-ctx-formula">{comp.formulaType}</span>
-          </div>
-          <div className="op-spec-grid">
-            <div className="op-spec-item">
-              <span className="op-spec-label">INPUT</span>
-              <span className="op-spec-val">{fmtShape(comp.inputShape)}</span>
-            </div>
-            <div className="op-spec-item">
-              <span className="op-spec-label">OUTPUT</span>
-              <span className="op-spec-val">{fmtShape(comp.outputShape)}</span>
-            </div>
-            <div className="op-spec-item">
-              <span className="op-spec-label">LAYER</span>
-              <span className="op-spec-val">{comp.layer != null ? `L${comp.layer}` : "GLOBAL"}</span>
-            </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={specRow}><span style={specKey}>ROLE</span><span style={specVal}>{comp.subtitle}</span></div>
-            <div style={specRow}><span style={specKey}>PARAMS</span><span style={specVal}>{comp.parameterCountFormatted ?? "—"}</span></div>
-          </div>
-          <div style={{ fontSize: "10.5px", lineHeight: 1.5, color: TOKENS.textSecondary, marginTop: "8px" }}>
-            {comp.explanation?.whyItMatters}
-          </div>
-        </div>
-      )}
+          {/* Input / Output / Dimensions */}
+          {(insp.inputShape || insp.outputShape || Object.keys(insp.dimensions).length > 0) && (
+            <div className="rp-section">
+              <div
+                style={{
+                  fontSize: "9px",
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  color: TOKENS.textMuted,
+                  textTransform: "uppercase",
+                  marginBottom: "6px",
+                }}
+              >
+                DIMENSIONS
+              </div>
 
-      <div className="rp-section" style={{ display: "flex", gap: "6px" }}>
-        <button
-          className="chip-btn"
-          onClick={prevChapter}
-          disabled={idx <= 0}
-          title="Previous chapter"
-          style={{ flex: 1 }}
-        >
-          ‹ Back
-        </button>
-        <button
-          className="chip-btn"
-          onClick={nextChapter}
-          disabled={idx >= CHAPTERS.length - 1}
-          title="Next chapter"
-          style={{ flex: 1 }}
-        >
-          Next ›
-        </button>
-      </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                {insp.inputShape && (
+                  <DimRow label="INPUT" value={insp.inputShape} />
+                )}
+                {insp.outputShape && (
+                  <DimRow label="OUTPUT" value={insp.outputShape} />
+                )}
+                {Object.entries(insp.dimensions).map(([k, v]) => (
+                  <DimRow key={k} label={k} value={v} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Why It Matters */}
+          {insp.whyItMatters && (
+            <div className="rp-section">
+              <div
+                style={{
+                  fontSize: "9px",
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  color: TOKENS.textMuted,
+                  textTransform: "uppercase",
+                  marginBottom: "4px",
+                }}
+              >
+                WHY IT MATTERS
+              </div>
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: "11.5px",
+                  lineHeight: 1.6,
+                  color: TOKENS.textSecondary,
+                }}
+              >
+                {insp.whyItMatters}
+              </p>
+            </div>
+          )}
+        </>
+      )}
     </aside>
+  );
+}
+
+function DimRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: "8px",
+        padding: "3px 0",
+        fontFamily: TOKENS.fontMono,
+        fontSize: "10px",
+        borderBottom: `1px solid ${TOKENS.border}`,
+      }}
+    >
+      <span style={{ color: TOKENS.textMuted, fontSize: "9px", letterSpacing: "0.08em" }}>
+        {label}
+      </span>
+      <span style={{ color: TOKENS.textPrimary, textAlign: "right" }}>{value}</span>
+    </div>
   );
 }

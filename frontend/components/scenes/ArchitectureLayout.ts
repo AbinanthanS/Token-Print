@@ -145,14 +145,48 @@ export function cameraOverview(numLayers = 24): {
   position: [number, number, number];
   target: [number, number, number];
 } {
-  const topY = LAYOUT.EMBED_Y + 2;
-  const botY = -((numLayers - 1) * LAYOUT.LAYER_HEIGHT) - LAYOUT.LM_HEAD_Y_OFFSET - 4;
-  const midY = (topY + botY) / 2;
+  return cameraOverviewForMode("explorer", numLayers);
+}
+
+/**
+ * Bounds-based overview camera for any mode, ensuring the transformer stack
+ * fills 50–70% (target 60%) of the usable vertical viewport.
+ */
+export function cameraOverviewForMode(
+  mode: string,
+  numLayers = 24,
+  fovDeg = 48
+): {
+  position: [number, number, number];
+  target: [number, number, number];
+} {
+  let topY = 0;
+  let botY = 0;
+
+  if (mode === "generation") {
+    const gap = 2.6;
+    topY = 4.0;
+    botY = -(numLayers + 1.5) * gap;
+  } else if (mode === "walkthrough") {
+    const gap = 3.4;
+    topY = 5.0;
+    botY = -(numLayers + 1) * gap;
+  } else {
+    // Explorer mode (14 units per layer)
+    topY = LAYOUT.EMBED_Y + 4;
+    botY = -((numLayers - 1) * LAYOUT.LAYER_HEIGHT) - LAYOUT.LM_HEAD_Y_OFFSET - 4;
+  }
+
   const height = topY - botY;
-  // Push camera back enough to see the full model height with ~45° FOV
-  const dist = Math.max(height * 0.9, 55);
+  const midY = (topY + botY) / 2;
+
+  // Calculate distance so the total height spans ~60% of vertical FOV
+  const fovRad = (fovDeg * Math.PI) / 180;
+  const targetFill = 0.60;
+  const distance = Math.max(35, (height / (2 * targetFill)) / Math.tan(fovRad / 2));
+
   return {
-    position: [6, midY + height * 0.08, dist],
-    target:   [0, midY,                  0],
+    position: [distance * 0.08, midY + height * 0.04, distance],
+    target: [0, midY, 0],
   };
 }
