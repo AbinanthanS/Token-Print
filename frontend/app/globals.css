@@ -8283,8 +8283,8 @@ html:has(.app.embed) .global-nav {
 
 .landing-split-grid {
   display: grid;
-  grid-template-columns: 1fr 1.6fr;
-  gap: 56px;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 48px;
   align-items: stretch;
 }
 
@@ -8294,6 +8294,12 @@ html:has(.app.embed) .global-nav {
   justify-content: space-between;
   height: 100%;
   padding-bottom: 12px;
+}
+
+.landing-split-right {
+  max-width: 560px;
+  width: 100%;
+  margin-left: auto;
 }
 
 .marshal-brand-title {
@@ -8374,7 +8380,7 @@ html:has(.app.embed) .global-nav {
 }
 
 .marshal-tile-visual {
-  height: 220px;
+  height: 165px;
   position: relative;
   overflow: hidden;
   background: #050505;
@@ -8462,16 +8468,16 @@ html:has(.app.embed) .global-nav {
 }
 
 .marshal-tile-body {
-  padding: 24px;
+  padding: 20px 20px 22px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   flex: 1;
 }
 
 .marshal-tile-title {
   font-family: var(--font-sans), 'Inter', system-ui, sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
   color: #FFFFFF;
   margin: 0;
@@ -8480,17 +8486,17 @@ html:has(.app.embed) .global-nav {
 
 .marshal-tile-headline {
   font-family: var(--font-sans), 'Inter', system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 400;
-  color: #E2E8F0;
+  color: #94A3B8;
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }
 
 .marshal-tile-copy {
   font-family: var(--font-sans), 'Inter', system-ui, sans-serif;
-  font-size: 13.5px;
-  line-height: 1.5;
+  font-size: 13px;
+  line-height: 1.45;
   color: #8A8F9B;
   margin: 4px 0 0;
   -webkit-font-smoothing: antialiased;
