@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useStore, useUIMode } from "@/lib/store";
-import { useSnapshotUrl } from "@/lib/useSnapshotUrl";
 import ContributorDrawer from "./ContributorDrawer";
 import { Section, MetricGrid, Metric, IconButton, TOKENS } from "./primitives";
 
@@ -55,8 +54,6 @@ export default function ModelSummaryCard({
   const tileView = useStore((s) => s.tileView);
   const setTileView = useStore((s) => s.setTileView);
 
-  const { share } = useSnapshotUrl();
-  const [copied, setCopied] = useState(false);
   const [contribOpen, setContribOpen] = useState(false);
 
   const m = arch?.metadata;
@@ -70,17 +67,6 @@ export default function ModelSummaryCard({
   const hiddenSize = m?.hidden_size || data?.hidden_size || 896;
   const vocabSize = m?.vocab_size || 151936;
   const dtype = m?.torch_dtype || m?.quantization || "float32";
-
-  const handleShare = () => {
-    share();
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleReport = async () => {
-    const { generateHealthReport } = await import("@/lib/healthReport");
-    generateHealthReport(arch, data);
-  };
 
   return (
     <>
@@ -130,8 +116,6 @@ export default function ModelSummaryCard({
           }}
         >
           <ModelAction label="HF Models" title="Search Hugging Face Hub & inspect model capabilities" onClick={() => useStore.getState().setHfExplorerOpen(true)} />
-          <ModelAction label={copied ? "Copied" : "Share"} title="Copy snapshot URL" onClick={handleShare} />
-          <ModelAction label="Report" title="Generate & download Model Health Report" onClick={handleReport} />
           <ModelAction label="Contribute" title="Browse open issues & contribute to TokenPrint" onClick={() => setContribOpen(true)} />
           {mode === "explorer" && (
             <ModelAction
