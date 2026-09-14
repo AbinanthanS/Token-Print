@@ -22,13 +22,12 @@ import DistributionPanel from "./ui/DistributionPanel";
 import TileView from "./ui/TileView";
 import DebuggerPane from "./ui/DebuggerPane";
 import TraceGallery from "./ui/TraceGallery";
-import PluginManager from "./ui/PluginManager";
+import { HFModelPicker } from "./ui/HFModelPicker";
 import { ContextualExplanationOverlay } from "./ui/ContextualExplanationOverlay";
 import { TransformerControlBar3D } from "./ui/TransformerControlBar3D";
 import { ModelMiniMap } from "./ui/ModelMiniMap";
 import { DevDiagnosticsHUD } from "./ui/DevDiagnosticsHUD";
 import { InspectControls } from "./scenes/inspect/InspectControls";
-import "@/lib/plugins/demoPlugin";
 import { fmtShape } from "@/lib/format";
 import { roleLabel } from "@/lib/tensorName";
 import { useKeyboard } from "@/lib/useKeyboard";
@@ -44,7 +43,8 @@ export default function AppShell() {
   const focusMode = useStore((s) => s.focusMode);
   const toggleFocusMode = useStore((s) => s.toggleFocusMode);
   const [mouse, setMouse] = useState({ x: 0, y: 0, inside: false });
-  const [pluginManagerOpen, setPluginManagerOpen] = useState(false);
+  const hfExplorerOpen = useStore((s) => s.hfExplorerOpen);
+  const setHfExplorerOpen = useStore((s) => s.setHfExplorerOpen);
 
   // Responsive sidebar collapse state
   const [leftCollapsed, setLeftCollapsed] = useState(false);
@@ -199,7 +199,14 @@ export default function AppShell() {
         )}
       </div>
       <TraceGallery />
-      <PluginManager open={pluginManagerOpen} onClose={() => setPluginManagerOpen(false)} />
+      <HFModelPicker
+        isOpen={hfExplorerOpen}
+        onClose={() => setHfExplorerOpen(false)}
+        onSelectModel={(modelId) => {
+          useStore.getState().loadArchitecture();
+          setHfExplorerOpen(false);
+        }}
+      />
       <BottomBar />
       {showSidebars && mode !== "debugger" && (
         <RightPanel

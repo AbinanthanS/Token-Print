@@ -123,22 +123,6 @@ export default function GenerationScene() {
   const packetPulse = useRef(0);
 
   useFrame((_, delta) => {
-    // Idle before any run: glide to a medium-wide architectural home that
-    // frames the whole model in the center (readable, not a thin line).
-    if (frameCount === 0) {
-      if (followMode && !userOrbiting && controls) {
-        camera.position.lerp(tmp.set(13, homeY + 5, 52), 0.04);
-        controls.target.lerp(tmp2.set(0, homeY, 0), 0.08);
-        controls.update();
-      }
-    } else if (followMode && !userOrbiting && activeLayer != null && controls) {
-      const y = -(activeLayer + 1) * GAP;
-      const dest = view2D ? tmp.set(0, y, 11) : tmp.set(8, y + 1, 10.5);
-      camera.position.lerp(dest, 0.07);
-      controls.target.lerp(tmp2.set(0, y, 0), 0.12);
-      controls.update();
-    }
-
     // Packet follows the active op's layer; a new forward pass restarts it at
     // the top (input/embeddings) when the op cursor wraps or a layer begins.
     if (packetRef.current) {

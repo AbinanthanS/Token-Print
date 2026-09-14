@@ -57,6 +57,7 @@ export function useKeyboard() {
             else s.setLayer(Math.max(0, s.selectedLayer - 1));
           } else {
             if (isExplorer) s.stepArch3dOp(-1);
+            else if (s.mode === "walkthrough") s.prevChapter();
             else s.stepOp(-1);
           }
           break;
@@ -72,6 +73,7 @@ export function useKeyboard() {
             }
           } else {
             if (isExplorer) s.stepArch3dOp(1);
+            else if (s.mode === "walkthrough") s.nextChapter();
             else s.stepOp(1);
           }
           break;
@@ -106,6 +108,16 @@ export function useKeyboard() {
           e.preventDefault();
           if (s.focusMode) s.toggleFocusMode();
           if (s.cameraMode === "token_follow") s.setCameraMode("overview");
+          break;
+        }
+
+        // ── Walkthrough camera debug ──────────────────────────────────────
+        case "d":
+        case "D": {
+          if (s.mode === "walkthrough") {
+            e.preventDefault();
+            s.toggleWtCamDebug();
+          }
           break;
         }
 

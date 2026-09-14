@@ -16,7 +16,7 @@ const MODE_CHECKS = {
     bodyNeeded: ["INPUT", "EMBEDDING", "LAYERS", "LM HEAD", "LOGITS", "NEXT TOKEN"],
   },
   walkthrough: {
-    left: ["CHAPTERS", "CONTROLS", "model scale", "Progress"],
+    left: ["chapters", "overview", "tokenization", "embedding", "self-attention", "playback"],
     right: ["WALKTHROUGH"],
     leakHidden: ["VIEWS", "TENSOR CATALOG"],
   },
@@ -110,7 +110,7 @@ async function main() {
     }
   }
 
-  // interaction: walkthrough next via inspector + global-header mode switch
+  // interaction: walkthrough next via bottom bar + global-header mode switch
   {
     const ctx = await browser.newContext({ viewport: { width: 1672, height: 941 } });
     const page = await ctx.newPage();
@@ -118,10 +118,15 @@ async function main() {
     await page.goto(`${URL}/app/?mode=walkthrough`, { waitUntil: "domcontentloaded" });
     await sleep(2500);
     const ch1 = await page.locator(".rightpanel").first().innerText();
-    await page.locator(".rightpanel .chip-btn:has-text('Next ›')").first().click();
+    const bodyBefore = await page.evaluate(() => document.body.innerText);
+    await page.locator('button[title="Next chapter (→)"]').first().click();
     await sleep(600);
     const ch2 = await page.locator(".rightpanel").first().innerText();
     const insertOk = /CH 2\/7/.test(ch2) && !/CH 1\/7/.test(ch2);
+
+    // bottom bar chapter readout advances too
+    const bodyAfter = await page.evaluate(() => document.body.innerText);
+    const barOk = /CHAPTER 02\/07/.test(bodyAfter) && /CHAPTER 01\/07/.test(bodyBefore);
 
     // header switch explorer -> generation
     await page.goto(`${URL}/app/`, { waitUntil: "domcontentloaded" });
@@ -131,7 +136,7 @@ async function main() {
     await sleep(2500);
     const after = await page.locator(".left-sidebar").first().innerText();
     const switchOk = !before.toLowerCase().includes("generation") && after.toLowerCase().includes("generation");
-    results.push({ mode: "interaction", vp: { w: 1672, h: 941 }, ok: insertOk && switchOk, insertOk, switchOk, errors: [] });
+    results.push({ mode: "interaction", vp: { w: 1672, h: 941 }, ok: insertOk && barOk && switchOk, insertOk, barOk, switchOk, errors: [] });
     await ctx.close();
   }
 

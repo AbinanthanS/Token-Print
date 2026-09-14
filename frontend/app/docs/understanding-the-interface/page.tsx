@@ -34,9 +34,6 @@ export default function UnderstandingTheInterfacePage() {
           the Model Explorer modal.
         </li>
         <li>
-          <strong>Plugins</strong> — opens the Plugin Manager for optional diagnostic extensions.
-        </li>
-        <li>
           <strong>Report</strong> — generates a Model Health Report for the currently loaded model.
         </li>
         <li>
