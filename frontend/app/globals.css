@@ -5244,102 +5244,8 @@ select {
 }
 
 /* --- Trace Gallery Modal --- */
-.trace-gallery.modal-content {
-  width: 900px;
-  max-width: 95vw;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  overflow: hidden;
-}
-
-.trace-gallery .modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-hover);
-}
-
-.trace-gallery .modal-header h2 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: var(--text);
-}
-
-.trace-gallery .close-btn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.trace-gallery .close-btn:hover {
-  color: var(--text);
-}
-
-.trace-gallery .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
-  padding: 20px;
-  overflow-y: auto;
-  max-height: 70vh;
-}
-
-.trace-gallery .gallery-card {
-  background: var(--bg-dark);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.trace-gallery .gallery-card h3 {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--text);
-}
-
-.trace-gallery .gallery-card .desc {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  flex-grow: 1;
-}
-
-.trace-gallery .gallery-card .meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--accent);
-}
-
-.trace-gallery .gallery-card .tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.trace-gallery .gallery-card .tag {
-  background: var(--bg-hover);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  color: var(--text-muted);
-}
-
-.trace-gallery .gallery-card .load-btn {
-  margin-top: 8px;
-  width: 100%;
-}
+/* TraceGallery — fully inline-styled in TraceGallery.tsx to match
+   the HFModelPicker TokenPrint monochrome theme. No CSS classes needed. */
 
 /* --- Annotations --- */
 .annotation-marker {
@@ -9623,3 +9529,137 @@ html:has(.app.embed) .global-nav {
     transform: scale(1) translateY(0);
   }
 }
+
+/* ==========================================================================
+   DESKTOP REQUIRED SCREEN (Mobile / Small-Screen Gate)
+   ========================================================================== */
+
+.desktop-required-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 48px);
+  width: 100%;
+  background-color: var(--ui-bg, #050505);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.desktop-required-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 440px;
+  width: 100%;
+  padding: 40px 32px;
+  background-color: var(--ui-surface, #0b0b0b);
+  border: 1px solid var(--ui-border, #252525);
+  border-radius: var(--radius-lg, 8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.desktop-required-header {
+  margin-bottom: 24px;
+}
+
+.desktop-required-logo {
+  height: 32px;
+  width: auto;
+  opacity: 0.9;
+}
+
+.desktop-required-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background-color: var(--ui-surface-raised, #111111);
+  border: 1px solid var(--ui-border-strong, #383838);
+  border-radius: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--ui-text-secondary, #a3a3a3);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.desktop-required-badge-icon {
+  color: var(--ui-text-muted, #737373);
+}
+
+.desktop-required-title {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ui-text, #f5f5f5);
+  margin: 0 0 12px 0;
+  letter-spacing: -0.01em;
+}
+
+.desktop-required-description {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ui-text-secondary, #a3a3a3);
+  margin: 0 0 12px 0;
+}
+
+.desktop-required-subtext {
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ui-text-muted, #737373);
+  margin: 0 0 28px 0;
+}
+
+.desktop-required-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.desktop-required-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-md, 6px);
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.desktop-required-btn--primary {
+  background-color: var(--ui-text, #f5f5f5);
+  color: #050505;
+  border: 1px solid #f5f5f5;
+}
+
+.desktop-required-btn--primary:hover {
+  background-color: #e5e5e5;
+  border-color: #e5e5e5;
+}
+
+.desktop-required-btn--secondary {
+  background-color: var(--ui-surface-raised, #111111);
+  color: var(--ui-text-secondary, #a3a3a3);
+  border: 1px solid var(--ui-border, #252525);
+}
+
+.desktop-required-btn--secondary:hover {
+  background-color: var(--ui-surface-hover, #181818);
+  color: var(--ui-text, #f5f5f5);
+  border-color: var(--ui-border-strong, #383838);
+}
+

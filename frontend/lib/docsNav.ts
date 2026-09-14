@@ -13,6 +13,7 @@ export const DOC_SECTIONS: DocSection[] = [
     label: "Getting Started",
     pages: [
       { title: "Introduction", slug: "introduction" },
+      { title: "Research & Background", slug: "research" },
       { title: "Installation", slug: "installation" },
       { title: "Quick Start", slug: "quick-start" },
       { title: "Your First Trace", slug: "your-first-trace" },

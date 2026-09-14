@@ -52,6 +52,7 @@ interface DocsNavProps {
 const PAGE_ICONS: Record<string, React.ReactNode> = {
   // Getting Started
   "introduction":              <BookOpen size={15} strokeWidth={1.5} />,
+  "research":                  <BookOpen size={15} strokeWidth={1.5} />,
   "installation":              <Download size={15} strokeWidth={1.5} />,
   "quick-start":               <Zap size={15} strokeWidth={1.5} />,
   "your-first-trace":          <Play size={15} strokeWidth={1.5} />,

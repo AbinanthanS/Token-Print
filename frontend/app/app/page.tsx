@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import AppShell from "@/components/AppShell";
+import DesktopGate from "@/components/DesktopGate";
 
 export default function AppPage() {
   return (
     <Suspense fallback={null}>
-      <AppShell />
+      <DesktopGate />
     </Suspense>
   );
 }
