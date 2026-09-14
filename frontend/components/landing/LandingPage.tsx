@@ -416,9 +416,9 @@ export function LandingPage() {
               <h4>COMMUNITY</h4>
               <ul>
                 <li><a href="https://github.com/Sudharsanselvaraj/Token-Print" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a href="https://x.com" target="_blank" rel="noopener noreferrer">X</a></li>
-                <li><a href="https://youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-                <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a href="https://x.com/sudharsan_sel" target="_blank" rel="noopener noreferrer">X</a></li>
+                <li><a href="mailto:tokenprint.in@gmail.com">Gmail</a></li>
+                <li><a href="https://www.linkedin.com/in/sudharsan-s-528a8a2a0/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
               </ul>
             </div>
           </div>
