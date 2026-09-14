@@ -204,15 +204,6 @@ function GenBottomBar() {
         <div style={{ flex: 1 }} />
 
         <CameraControlGroup />
-        <Button variant={view2D ? "primary" : "secondary"} onClick={toggleView2D}>
-          {view2D ? "3D" : "2D"}
-        </Button>
-
-        {genStatus === "done" && traceSource === "live" && (
-          <Button onClick={downloadTrace} title="Download .tokenprint.json">
-            ↓ Trace
-          </Button>
-        )}
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", overflow: "hidden" }}>

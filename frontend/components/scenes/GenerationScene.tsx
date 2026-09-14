@@ -17,7 +17,6 @@ import { opColorOf, opKindOf, type OpKind } from "@/lib/sceneColors";
 // 3D components (they all key off `gap`).
 const GAP = 2.6;
 const KV_CAP = 40;
-const IDLE_FOV = 72;
 
 const tmp = new Vector3();
 const tmp2 = new Vector3();
@@ -96,17 +95,7 @@ export default function GenerationScene() {
     };
   }, [controls, setUserOrbiting]);
 
-  // Medium-wide architectural lens for the generation workspace (idle framing).
-  useEffect(() => {
-    const cam = camera as PerspectiveCamera;
-    const fov = cam.fov;
-    cam.fov = IDLE_FOV;
-    cam.updateProjectionMatrix();
-    return () => {
-      cam.fov = fov;
-      cam.updateProjectionMatrix();
-    };
-  }, [camera]);
+
 
   const opCol: [number, number, number] = op
     ? opColorOf(op.op_key, activeKind ?? "norm")

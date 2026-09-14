@@ -7,6 +7,7 @@ import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { useStore } from "@/lib/store";
 import {
   cameraOverview,
+  cameraOverviewForMode,
   cameraForLayer,
   cameraForOp,
   nodeWorldPos,
@@ -54,9 +55,11 @@ export function GlobalCameraController({
   const targetPos = useRef(new THREE.Vector3());
   const targetLook = useRef(new THREE.Vector3());
 
-  // Set initial camera view on mount
+  const fov = (camera as THREE.PerspectiveCamera).fov ?? 48;
+
+  // Set initial camera view on mount using mode-specific bounds framing
   useEffect(() => {
-    const { position, target } = cameraOverview(numLayers);
+    const { position, target } = cameraOverviewForMode(mode, numLayers, fov);
     targetPos.current.set(...position);
     targetLook.current.set(...target);
     camera.position.set(...position);
@@ -65,7 +68,7 @@ export function GlobalCameraController({
       controlsRef.current.update();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mode, numLayers, fov]);
 
   // Compute transform target based on navMode & mode
   const getTargetTransform = (): { position: [number, number, number]; target: [number, number, number] } => {
@@ -73,20 +76,31 @@ export function GlobalCameraController({
 
     switch (activeNav) {
       case "OVERVIEW":
-        return cameraOverview(numLayers);
+        return cameraOverviewForMode(mode, numLayers, fov);
 
       case "LAYER_FOCUS": {
         let l = 0;
         if (mode === "explorer") {
           l = arch3dLayer >= 0 ? arch3dLayer : selectedLayer;
+          l = Math.max(0, Math.min(l, numLayers - 1));
+          return cameraForLayer(l);
         } else if (mode === "generation") {
           const catalogOp = genMeta?.op_catalog?.[opIndex];
           l = catalogOp?.layer ?? selectedLayer;
+          l = Math.max(0, Math.min(l, numLayers - 1));
+          const ly = -(l + 1) * 2.6;
+          return {
+            position: [0, ly + 2.8, 10.5],
+            target: [0, ly, 0],
+          };
         } else {
-          l = selectedLayer;
+          l = Math.max(0, Math.min(selectedLayer, numLayers - 1));
+          const ly = -(l + 1) * 3.4;
+          return {
+            position: [0, ly + 3.2, 12],
+            target: [0, ly, 0],
+          };
         }
-        l = Math.max(0, Math.min(l, numLayers - 1));
-        return cameraForLayer(l);
       }
 
       case "OP_FOCUS": {
@@ -97,13 +111,18 @@ export function GlobalCameraController({
         } else if (mode === "generation") {
           const catalogOp = genMeta?.op_catalog?.[opIndex];
           const l = catalogOp?.layer ?? 0;
-          const ly = -l * LAYOUT.LAYER_HEIGHT;
+          const ly = -(l + 1) * 2.6;
           return {
-            position: [0, ly + 3.0, 11],
-            target: [0, ly + 1.0, 0],
+            position: [0, ly + 2.2, 9.5],
+            target: [0, ly, 0],
           };
         } else {
-          return cameraForLayer(selectedLayer);
+          const l = Math.min(wtChapter, numLayers - 1);
+          const ly = -(l + 1) * 3.4;
+          return {
+            position: [0, ly + 2.5, 11],
+            target: [0, ly, 0],
+          };
         }
       }
 
@@ -119,15 +138,15 @@ export function GlobalCameraController({
         } else if (mode === "generation") {
           const catalogOp = genMeta?.op_catalog?.[opIndex];
           const l = catalogOp?.layer ?? (playIndex >= 0 ? playIndex % numLayers : 0);
-          const ly = -l * LAYOUT.LAYER_HEIGHT;
+          const ly = -(l + 1) * 2.6;
           return {
-            position: [5.5, ly + 2.5, 12],
+            position: [4.5, ly + 2.2, 10.5],
             target: [0, ly, 0],
           };
         } else {
           // Walkthrough follow
           const l = Math.min(wtChapter, numLayers - 1);
-          const ly = -l * LAYOUT.LAYER_HEIGHT;
+          const ly = -(l + 1) * 3.4;
           return {
             position: [4.5, ly + 3.0, 13],
             target: [0, ly, 0],
