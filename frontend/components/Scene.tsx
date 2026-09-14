@@ -198,7 +198,10 @@ export default function Scene({
       <PostProcessingPipeline />
       <DebugExpose />
       <Brightness />
-      <CinematicCameraController controlsRef={controlsRef} />
+      {/* Explorer's cinematic controller pulls the camera toward its overview on
+          every frame — that would fight the walkthrough/generation camera
+          systems, so it only runs in explorer mode. */}
+      {mode === "explorer" && <CinematicCameraController controlsRef={controlsRef} />}
 
       <OrbitControls
         ref={controlsRef}

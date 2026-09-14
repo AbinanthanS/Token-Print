@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import DocsHeader from "./DocsHeader";
 import DocsNav from "./DocsNav";
 import DocsOnThisPage from "./DocsOnThisPage";
 
@@ -63,24 +62,16 @@ export default function DocsAppShell({ children }: { children: React.ReactNode }
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const handleHeaderSearchClick = () => {
-    setMobileOpen(true);
-    setTimeout(() => {
-      const searchInput = document.querySelector(
-        ".docs-nav-search-input"
-      ) as HTMLInputElement;
-      if (searchInput) searchInput.focus();
-    }, 100);
-  };
-
   return (
     <div className="docs-shell">
-      {/* Fixed top header */}
-      <DocsHeader
-        mobileOpen={mobileOpen}
-        setMobileOpen={setMobileOpen}
-        onSearchClick={handleHeaderSearchClick}
-      />
+      {/* Mobile-only sidebar toggle (global header handles site nav) */}
+      <button
+        className="docs-mobile-menu-btn"
+        aria-label="Open documentation sidebar"
+        onClick={() => setMobileOpen((v) => !v)}
+      >
+        <span className="docs-mobile-menu-icon" />
+      </button>
 
       {/* Main body flex container */}
       <div className="docs-body-wrapper">

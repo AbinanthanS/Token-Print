@@ -111,7 +111,16 @@ app = FastAPI(title="TokenPrint", version="0.1.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=[
+        # Local dev
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        # Deployed frontend (GitHub Pages + custom domain)
+        "https://sudharsanselvaraj.github.io",
+        "https://tokenprint.in",
+        "https://www.tokenprint.in",
+        "https://api.tokenprint.in",
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -731,6 +740,8 @@ async def ws_generate(ws: WebSocket) -> None:
             if gguf_path:
                 frames = _gguf_engine_for(gguf_path).generate(
                     prompt, int(max_new_tokens), int(top_k),
+                    temperature=temperature, top_p=top_p,
+                    decoding_mode=decoding_mode,
                 )
             else:
                 frames = engine.generate_steps(

@@ -987,6 +987,11 @@ class ModelEngine:
 
         Decoding modes (issue #86):
           * ``greedy`` — classic one-token-per-step argmax.
+          * ``sampling`` — real temperature / top-k / top-p sampling from the
+            model's own logits (``torch.multinomial`` on the filtered
+            distribution). `temperature`, `top_k` and `top_p` genuinely shape
+            which token is drawn; the top-k rows streamed to the UI are still
+            the raw, untouched probabilities.
           * ``sliding_window`` — the KV cache is trimmed to the last
             ``window_size`` positions each decode step, so the model genuinely
             recomputes with a reduced visual context (real, not fake).
@@ -1003,7 +1008,7 @@ class ModelEngine:
         top_k = max(1, min(int(top_k), 20))
         window_size = max(16, min(int(window_size), 4096))
         draft_gamma = max(1, min(int(draft_gamma), 8))
-        decoding_mode = decoding_mode if decoding_mode in ("greedy", "sliding_window", "speculative") else "greedy"
+        decoding_mode = decoding_mode if decoding_mode in ("greedy", "sampling", "sliding_window", "speculative") else "greedy"
         if self.mode != "causal_lm":
             raise ValueError(
                 f"{self.mode} models do not generate text — decoding is only "
@@ -1048,6 +1053,9 @@ class ModelEngine:
                     "window_size": window_size,
                     "draft_gamma": draft_gamma,
                     "needle": needle or None,
+                    "temperature": round(float(temperature), 3),
+                    "top_k": top_k,
+                    "top_p": round(float(top_p), 3),
                 },
                 # This decode loop genuinely uses a KV cache (use_cache=True with
                 # past_key_values threaded step to step), so the frontend may show
@@ -1228,11 +1236,22 @@ class ModelEngine:
                     if seed is not None:
                         torch.manual_seed(seed)
 
-                    if temperature <= 0.001:
+                    # Greedy decode is argmax regardless of temperature; only the
+                    # explicit "sampling" mode draws from the true distribution.
+                    if decoding_mode == "greedy" or temperature <= 0.001:
                         chosen_id = int(probs.argmax().item())
                     else:
                         scaled_logits = logits / max(temperature, 1e-4)
-                        # Top-P (nucleus) filtering if requested
+                        # Top-K: keep only the top_k logits (real, affects which
+                        # tokens can be drawn at all).
+                        if top_k < scaled_logits.shape[-1]:
+                            kth = torch.topk(scaled_logits, top_k, dim=-1).values[..., -1:]
+                            scaled_logits = torch.where(
+                                scaled_logits < kth,
+                                torch.full_like(scaled_logits, float("-inf")),
+                                scaled_logits,
+                            )
+                        # Top-P (nucleus) filtering if requested.
                         if top_p < 0.999:
                             sorted_logits, sorted_indices = torch.sort(scaled_logits, descending=True)
                             cumulative_probs = torch.cumsum(sorted_logits.softmax(-1), dim=-1)
@@ -1247,7 +1266,8 @@ class ModelEngine:
 
                     generated_ids.append(chosen_id)
                     yield emit_frame(step, chosen_id, probs, logits, out.hidden_states,
-                                     phase, n_positions, cache_len_in)
+                                     phase, n_positions, cache_len_in,
+                                     {"sampled": decoding_mode == "sampling"})
                     step += 1
                     if chosen_id in eos_ids:
                         break

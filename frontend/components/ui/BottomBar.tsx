@@ -6,8 +6,6 @@ import { phaseInfo } from "@/lib/playback";
 import { opById } from "@/components/scenes/TransformerOperationGraph";
 import { Button, IconButton, Badge, TOKENS } from "./primitives";
 
-const SPEEDS = [0.5, 1, 2, 4];
-
 function disp(t: string): string {
   const s = t.replace(/\n/g, "\u23CE");
   return s.length === 0 ? "\u2423" : s;
@@ -159,8 +157,8 @@ function GenBottomBar() {
   const playIndex = useStore((s) => s.playIndex);
   const opPlaying = useStore((s) => s.opPlaying);
   const toggleOpPlay = useStore((s) => s.toggleOpPlay);
-  const skipToNextLayer = useStore((s) => s.skipToNextLayer);
-  const skipToNextToken = useStore((s) => s.skipToNextToken);
+  const stepPlay = useStore((s) => s.stepPlay);
+  const replay = useStore((s) => s.replay);
   const playSpeed = useStore((s) => s.playSpeed);
   const setPlaySpeed = useStore((s) => s.setPlaySpeed);
   const followMode = useStore((s) => s.followMode);
@@ -177,6 +175,7 @@ function GenBottomBar() {
   const usesCache = meta?.uses_kv_cache;
   const phase = phaseInfo(frame, promptLen, usesCache);
 
+  const SPEEDS = [1, 2, 4];
   const cycleSpeed = () => {
     const i = SPEEDS.indexOf(playSpeed);
     setPlaySpeed(SPEEDS[(i + 1) % SPEEDS.length] ?? 1);
@@ -208,15 +207,15 @@ function GenBottomBar() {
     >
       <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
         <IconButton icon={opPlaying ? "⏸" : "▶"} onClick={toggleOpPlay} title="Play / pause" />
-        <Button onClick={skipToNextLayer} title="Skip to next layer">⏭ Layer</Button>
-        <Button onClick={skipToNextToken} title="Skip to next token">Next Token ⏩</Button>
+        <Button onClick={() => stepPlay(-1)} disabled={playIndex <= 0} title="Previous token">◀ Token</Button>
+        <Button onClick={() => stepPlay(1)} disabled={playIndex >= frames.length - 1} title="Next token">Token ▶</Button>
+        <Button onClick={replay} title="Reset to the first token">Reset</Button>
         <Button onClick={cycleSpeed}>{playSpeed}× Speed</Button>
 
-        {phase && <Badge>{phase.label}</Badge>}
-
+        {phase && <Badge>{phase.label.toUpperCase()}</Badge>}
         {frames.length > 0 && (
-          <span style={{ fontSize: "11px", color: TOKENS.textMuted }}>
-            {playIndex + 1} / {frames.length} ops
+          <span style={{ fontSize: "11px", color: TOKENS.textMuted, fontFamily: TOKENS.fontMono }}>
+            TOKEN {String(playIndex + 1).padStart(2, "0")} / {String(frames.length).padStart(2, "0")}
           </span>
         )}
 
