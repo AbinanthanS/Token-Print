@@ -120,7 +120,7 @@ export default function GenerationScene() {
   // active layer to the output as the real op catalog executes.
   const packetRef = useRef<Group | null>(null);
   const packetY = useRef(0);
-  const packetPulse = useRef(Math.random() * 10);
+  const packetPulse = useRef(0);
 
   useFrame((_, delta) => {
     // Idle before any run: glide to a medium-wide architectural home that
