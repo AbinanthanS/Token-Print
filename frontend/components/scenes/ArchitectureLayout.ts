@@ -160,33 +160,37 @@ export function cameraOverviewForMode(
   position: [number, number, number];
   target: [number, number, number];
 } {
-  let topY = 0;
-  let botY = 0;
-
   if (mode === "generation") {
     const gap = 2.6;
-    topY = 4.0;
-    botY = -(numLayers + 1.5) * gap;
+    const topY = 4.0;
+    const botY = -(numLayers + 1.5) * gap;
+    const height = topY - botY;
+    const midY = (topY + botY) / 2;
+    const fovRad = (fovDeg * Math.PI) / 180;
+    const distance = Math.max(35, (height / (2 * 0.60)) / Math.tan(fovRad / 2));
+    return {
+      position: [distance * 0.08, midY + height * 0.04, distance],
+      target: [0, midY, 0],
+    };
   } else if (mode === "walkthrough") {
     const gap = 3.4;
-    topY = 5.0;
-    botY = -(numLayers + 1) * gap;
+    const topY = 5.0;
+    const botY = -(numLayers + 1) * gap;
+    const height = topY - botY;
+    const midY = (topY + botY) / 2;
+    const fovRad = (fovDeg * Math.PI) / 180;
+    const distance = Math.max(35, (height / (2 * 0.60)) / Math.tan(fovRad / 2));
+    return {
+      position: [distance * 0.08, midY + height * 0.04, distance],
+      target: [0, midY, 0],
+    };
   } else {
-    // Explorer mode (14 units per layer)
-    topY = LAYOUT.EMBED_Y + 4;
-    botY = -((numLayers - 1) * LAYOUT.LAYER_HEIGHT) - LAYOUT.LM_HEAD_Y_OFFSET - 4;
+    // Explorer mode: bring camera much closer (Z = 62, target Y = -32) so the
+    // 3D model, components, labels, and connections are immediately readable
+    // without the user having to search deep into the void.
+    return {
+      position: [14, -20, 62],
+      target: [0, -32, 0],
+    };
   }
-
-  const height = topY - botY;
-  const midY = (topY + botY) / 2;
-
-  // Calculate distance so the total height spans ~60% of vertical FOV
-  const fovRad = (fovDeg * Math.PI) / 180;
-  const targetFill = 0.60;
-  const distance = Math.max(35, (height / (2 * targetFill)) / Math.tan(fovRad / 2));
-
-  return {
-    position: [distance * 0.08, midY + height * 0.04, distance],
-    target: [0, midY, 0],
-  };
 }
