@@ -26,6 +26,11 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
     labels:
       - "dependencies"
       - "backend"
@@ -39,8 +44,13 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    groups:
+      actions-updates:
+        patterns:
+          - "*"
     labels:
       - "dependencies"
       - "ci"
     commit-message:
       prefix: "chore(actions)"
+
