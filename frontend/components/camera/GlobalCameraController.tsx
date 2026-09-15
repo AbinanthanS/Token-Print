@@ -6,12 +6,9 @@ import * as THREE from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { useStore } from "@/lib/store";
 import {
-  cameraOverview,
   cameraOverviewForMode,
   cameraForLayer,
-  cameraForOp,
   nodeWorldPos,
-  LAYOUT,
 } from "@/components/scenes/ArchitectureLayout";
 import { getPresetTransform, opToPreset } from "./CinematicCameraController";
 
@@ -128,7 +125,6 @@ export function GlobalCameraController({
 
       case "FOLLOW": {
         if (mode === "explorer") {
-          const l = arch3dLayer >= 0 ? arch3dLayer : 0;
           const [, ly] = nodeWorldPos(arch3dOpId, numLayers);
           const tokenX = (selectedTokenIndex - 2) * 0.77;
           return {

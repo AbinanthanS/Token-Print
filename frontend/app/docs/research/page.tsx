@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import DocsBreadcrumb from "@/components/docs/DocsBreadcrumb";
 import DocsPrevNext from "@/components/docs/DocsPrevNext";
 import DocsCallout from "@/components/docs/DocsCallout";

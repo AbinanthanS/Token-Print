@@ -125,17 +125,6 @@ function assert(condition, label) {
   }
 }
 
-function assertEq(actual, expected, label) {
-  const ok = actual === expected;
-  if (!ok) {
-    failed++;
-    console.error(`  [FAIL] ${label} — expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
-  } else {
-    passed++;
-    console.log(`  [PASS] ${label}`);
-  }
-}
-
 async function visible(page, selector, timeout = 8000) {
   await page.locator(selector).first().waitFor({ state: "visible", timeout });
 }

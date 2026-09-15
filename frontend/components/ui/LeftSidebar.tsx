@@ -37,7 +37,6 @@ export default function LeftSidebar({ collapsed, onToggleCollapse }: LeftSidebar
   const [sourceTab, setSourceTab] = useState<"live" | "trace" | "gguf" | "hf">("live");
 
   const m = arch?.metadata;
-  const modelName = m?.name || data?.model || "Qwen2.5-0.5B-Instruct";
   const numLayers = m?.num_layers || data?.num_layers || 24;
 
   const tokens: Token[] = data?.tokens || [

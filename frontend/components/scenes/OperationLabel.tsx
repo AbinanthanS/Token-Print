@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import { useStore } from "@/lib/store";
-import { LAYOUT, nodeWorldPos } from "./ArchitectureLayout";
+import { nodeWorldPos } from "./ArchitectureLayout";
 import { opById, kindLabel } from "./TransformerOperationGraph";
 
 /**
@@ -17,7 +17,6 @@ import { opById, kindLabel } from "./TransformerOperationGraph";
  */
 export function OperationLabel() {
   const arch3dOpId      = useStore((s) => s.arch3dOpId);
-  const arch3dLayer     = useStore((s) => s.arch3dLayer);
   const arch3dPlaying   = useStore((s) => s.arch3dPlaying);
   const arch3dSpeed     = useStore((s) => s.arch3dSpeed);
   const arch            = useStore((s) => s.arch);

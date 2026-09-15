@@ -10,7 +10,6 @@ export function TransformerControlBar3D() {
   const mode = useStore((s) => s.mode);
 
   // ── arch3d interaction state ──────────────────────────────────────────────
-  const arch3dOpId       = useStore((s) => s.arch3dOpId);
   const arch3dLayer      = useStore((s) => s.arch3dLayer);
   const arch3dOpKind     = useStore((s) => s.arch3dOpKind);
   const arch3dPlaying    = useStore((s) => s.arch3dPlaying);
@@ -25,7 +24,6 @@ export function TransformerControlBar3D() {
   const setNavMode      = useStore((s) => s.setNavMode);
   const focusMode       = useStore((s) => s.focusMode);
   const toggleFocusMode = useStore((s) => s.toggleFocusMode);
-  const setUserOrbiting = useStore((s) => s.setUserOrbiting);
 
   // ── generation playback (for generation/walkthrough modes) ────────────────
   const opPlaying   = useStore((s) => s.opPlaying);

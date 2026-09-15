@@ -38,30 +38,6 @@ export function TokenPacketSystem() {
     )
   );
 
-  const arch3dOpKind = useStore((s) => s.arch3dOpKind);
-
-  // Derive semantic packet color based on operation kind
-  const packetColor = useMemo(() => {
-    switch (arch3dOpKind) {
-      case "attn_q":           return "#22c55e"; // Green Query
-      case "attn_k":           return "#3b82f6"; // Blue Key
-      case "attn_v":           return "#f97316"; // Orange Value
-      case "attn_scores":
-      case "attn_scale":
-      case "attn_mask":
-      case "attn_softmax":
-      case "attn_weighted_v":
-      case "attn_o":           return "#a855f7"; // Purple Attention
-      case "mlp_gate":
-      case "mlp_up":
-      case "swiglu":
-      case "mlp_down":         return "#f59e0b"; // Amber MLP
-      case "res_add1":
-      case "res_add2":         return "#34d399"; // Emerald Residual
-      default:                 return "#e2e8f0"; // Silver Default
-    }
-  }, [arch3dOpKind]);
-
   // Smooth physical motion lerp with acceleration/deceleration
   useFrame((_, delta) => {
     if (!packetGroupRef.current) return;

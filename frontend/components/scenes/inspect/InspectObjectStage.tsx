@@ -2,10 +2,10 @@
 
 import React, { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Html, Line } from "@react-three/drei";
+import { Line } from "@react-three/drei";
 import * as THREE from "three";
 import { useStore } from "@/lib/store";
-import { LAYOUT, nodeWorldPos } from "../ArchitectureLayout";
+import { nodeWorldPos } from "../ArchitectureLayout";
 import { getComponentDefinition } from "./componentDefinitions";
 import { InspectLabel } from "./InspectLabel";
 import { InspectLighting } from "./InspectLighting";

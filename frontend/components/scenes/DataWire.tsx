@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { Line, Billboard, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { Color } from "three";
-import { GRAY, HOVER_GLOW } from "@/lib/sceneColors";
+import { HOVER_GLOW } from "@/lib/sceneColors";
 
 export interface DataWireProps {
   start: [number, number, number];

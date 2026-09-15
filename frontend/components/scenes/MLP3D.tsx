@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo } from "react";
-import * as THREE from "three";
 import { Line, Text, Billboard } from "@react-three/drei";
 import { SpatialMatrixPlane } from "./SpatialMatrixPlane";
 import { LAYOUT } from "./ArchitectureLayout";

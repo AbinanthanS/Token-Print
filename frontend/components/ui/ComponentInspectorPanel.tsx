@@ -65,23 +65,6 @@ const Inspector3DPreview = dynamic(
   }
 );
 
-// ─── Semantic accent color per formula type (Model Visualization ONLY) ───────
-function semanticAccentColor(comp: InspectableComponent): string {
-  const t = comp.formulaType;
-  const id = comp.id;
-  if (id.includes("attn_q") || t === "q_proj") return "var(--semantic-q, #10b981)";
-  if (id.includes("attn_k") || t === "k_proj") return "var(--semantic-k, #3b82f6)";
-  if (id.includes("attn_v") || t === "v_proj") return "var(--semantic-v, #f97316)";
-  if (t === "rope")                              return "var(--semantic-attention, #a855f7)";
-  if (t === "softmax" || t === "scores" || t === "weighted_v") return "var(--semantic-attention, #a855f7)";
-  if (t === "o_proj")                            return "var(--semantic-attention, #a855f7)";
-  if (t?.startsWith("mlp") || t === "swiglu")   return "var(--semantic-mlp, #ea580c)";
-  if (t === "rmsnorm" || t === "layernorm")      return "var(--semantic-residual, #f5f5f5)";
-  if (t === "res_add_attn" || t === "res_add_mlp") return "var(--semantic-residual, #f5f5f5)";
-  if (t === "embed" || t === "lm_head")          return "var(--semantic-data, #06b6d4)";
-  return TOKENS.textPrimary;
-}
-
 // ─── Equation renderer (White/Gray defaults, semantic variable highlight) ────
 interface Token { text: string; color?: string; style?: "bold" | "italic" | "normal" }
 

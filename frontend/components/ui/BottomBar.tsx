@@ -30,8 +30,6 @@ function ArchBottomBar() {
   const arch3dSpeed = useStore((s) => s.arch3dSpeed);
   const setArch3dSpeed = useStore((s) => s.setArch3dSpeed);
   const arch3dOpId = useStore((s) => s.arch3dOpId);
-  const cameraMode = useStore((s) => s.cameraMode);
-  const setCameraMode = useStore((s) => s.setCameraMode);
   const selectedTokenIndex = useStore((s) => s.selectedTokenIndex);
   const setSelectedTokenIndex = useStore((s) => s.setSelectedTokenIndex);
   const data = useStore((s) => s.data);
@@ -143,13 +141,6 @@ function GenBottomBar() {
   const replay = useStore((s) => s.replay);
   const playSpeed = useStore((s) => s.playSpeed);
   const setPlaySpeed = useStore((s) => s.setPlaySpeed);
-  const followMode = useStore((s) => s.followMode);
-  const toggleFollow = useStore((s) => s.toggleFollow);
-  const view2D = useStore((s) => s.view2D);
-  const toggleView2D = useStore((s) => s.toggleView2D);
-  const genStatus = useStore((s) => s.genStatus);
-  const traceSource = useStore((s) => s.traceSource);
-  const downloadTrace = useStore((s) => s.downloadTrace);
   const hasCatalog = useStore((s) => (s.genMeta?.op_catalog?.length ?? 0) > 0);
 
   const frame = playIndex >= 0 ? frames[playIndex] : null;

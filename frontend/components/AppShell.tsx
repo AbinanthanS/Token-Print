@@ -24,10 +24,7 @@ import DebuggerPane from "./ui/DebuggerPane";
 import TraceGallery from "./ui/TraceGallery";
 import { HFModelPicker } from "./ui/HFModelPicker";
 import { ContextualExplanationOverlay } from "./ui/ContextualExplanationOverlay";
-import { TransformerControlBar3D } from "./ui/TransformerControlBar3D";
-import { ModelMiniMap } from "./ui/ModelMiniMap";
 import { DevDiagnosticsHUD } from "./ui/DevDiagnosticsHUD";
-import { InspectControls } from "./scenes/inspect/InspectControls";
 import { fmtShape } from "@/lib/format";
 import { roleLabel } from "@/lib/tensorName";
 import { useKeyboard } from "@/lib/useKeyboard";
@@ -98,8 +95,6 @@ export default function AppShell() {
 
   // Sidebars are hidden in embedMode and focusMode
   const showSidebars = !embedMode && !focusMode;
-  // 3D canvas overlays (control bar, mini-map) shown in non-debugger 3D modes
-  const showCanvas3DOverlays = mode !== "debugger" && !tileView;
 
   // Dynamic grid template columns based on sidebar collapse states.
   // Debugger drops the right inspector — the dashboard owns the full width.

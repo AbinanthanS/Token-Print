@@ -36,8 +36,6 @@ import {
   CheckCircle,
   Users,
   Clock,
-  ChevronDown,
-  ChevronRight,
   X,
 } from "lucide-react";
 
@@ -97,17 +95,10 @@ export default function DocsNav({
   const pathname = usePathname();
   const [localQuery, setLocalQuery] = useState("");
 
-  // Track which sections are collapsed (default all open)
-  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
-
   const query = searchQuery || localQuery;
   const handleQueryChange = (val: string) => {
     setLocalQuery(val);
     if (setSearchQuery) setSearchQuery(val);
-  };
-
-  const toggleSection = (label: string) => {
-    setCollapsed((prev) => ({ ...prev, [label]: !prev[label] }));
   };
 
   // Derive slug from pathname: /docs/concepts/attention -> concepts/attention
@@ -126,9 +117,6 @@ export default function DocsNav({
       ),
     })).filter((sec) => sec.pages.length > 0);
   }, [query]);
-
-  // When searching, auto-expand everything
-  const isSearching = query.trim().length > 0;
 
   return (
     <>

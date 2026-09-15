@@ -117,7 +117,6 @@ async function main() {
     await page.goto(`${URL}/app/?mode=walker`, { waitUntil: "domcontentloaded" }).catch(() => {});
     await page.goto(`${URL}/app/?mode=walkthrough`, { waitUntil: "domcontentloaded" });
     await sleep(2500);
-    const ch1 = await page.locator(".rightpanel").first().innerText();
     const bodyBefore = await page.evaluate(() => document.body.innerText);
     await page.locator('button[title="Next chapter (→)"]').first().click();
     await sleep(600);

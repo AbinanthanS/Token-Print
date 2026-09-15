@@ -16,7 +16,6 @@ export function ComputationGraph() {
   const selectedHead = useStore((s) => s.selectedHead);
   const setSelectedTensor = useStore((s) => s.setSelectedTensor);
   const selectedTensor = useStore((s) => s.selectedTensor);
-  const graphViewMode = useStore((s) => s.graphViewMode);
 
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>("full_model");
   const [zoomScale, setZoomScale] = useState<number>(1.0);
