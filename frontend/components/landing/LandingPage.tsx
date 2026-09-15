@@ -1,80 +1,14 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { assetUrl } from "@/lib/assets";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Plus,
-  Layers,
-  Play,
-  Map,
-  Bug,
-  Hash,
-  Sliders,
-  Cpu,
-  RotateCcw,
-  ScanLine,
-  Eye,
-  Network,
-  TrendingUp,
-  GitBranch,
-  Zap,
-  GitMerge,
-  BarChart2,
-  Shuffle,
-  Database,
-  Box,
-  Globe,
-  CheckCircle2,
-  Code2,
-} from "lucide-react";
+import { ArrowRight, Code2, GitBranch, Layers, Play } from "lucide-react";
 
-import {
-  ECOSYSTEM_LOGOS,
-  PINNED_STORY_STEPS,
-  FEATURE_GRID_ITEMS,
-  SCIENTIFIC_TRUST_CONCEPTS,
-} from "@/lib/landing/content";
-import {
-  ComputationalHeroVisual,
-  PinnedStoryVisual,
-  LargeDataFieldVisual,
-  MicroDotGridVisual,
-  MicroCrosshairVisual,
-  MicroTargetIcon,
-  MicroLightningIcon,
-} from "./LandingVisuals";
-import { Reveal, usePinnedScrollProgress } from "./LandingMotion";
+import { ComputationalHeroVisual, MicroDotGridVisual, MicroTargetIcon, MicroLightningIcon } from "./LandingVisuals";
+import { Reveal } from "./LandingMotion";
 import { GithubIcon } from "./GithubIcon";
 import { ECOSYSTEM_STACK } from "./EcosystemLogos";
-
-// Icon lookup map for step points
-const STEP_ICONS: Record<string, React.ReactNode> = {
-  Hash: <Hash size={14} className="text-[#4C86FF]" />,
-  Sliders: <Sliders size={14} className="text-[#4C86FF]" />,
-  Cpu: <Cpu size={14} className="text-[#4C86FF]" />,
-  Layers: <Layers size={14} className="text-[#4C86FF]" />,
-  RotateCcw: <RotateCcw size={14} className="text-[#4C86FF]" />,
-  ScanLine: <ScanLine size={14} className="text-[#4C86FF]" />,
-  Eye: <Eye size={14} className="text-[#4C86FF]" />,
-  Network: <Network size={14} className="text-[#4C86FF]" />,
-  TrendingUp: <TrendingUp size={14} className="text-[#4C86FF]" />,
-  GitBranch: <GitBranch size={14} className="text-[#4C86FF]" />,
-  Zap: <Zap size={14} className="text-[#4C86FF]" />,
-  GitMerge: <GitMerge size={14} className="text-[#4C86FF]" />,
-  BarChart2: <BarChart2 size={14} className="text-[#4C86FF]" />,
-  Shuffle: <Shuffle size={14} className="text-[#4C86FF]" />,
-  Database: <Database size={14} className="text-[#4C86FF]" />,
-};
-
-const FEATURE_ICONS: Record<string, React.ReactNode> = {
-  architecture: <Layers size={15} className="text-[#4C86FF]" />,
-  generation: <Play size={15} className="text-[#4C86FF]" />,
-  walkthrough: <Map size={15} className="text-[#4C86FF]" />,
-  debugger: <Bug size={15} className="text-[#4C86FF]" />,
-};
 
 export function LandingPage() {
   const [showcaseTab, setShowcaseTab] = useState<number>(0);

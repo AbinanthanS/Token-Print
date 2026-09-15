@@ -1,10 +1,5 @@
 "use client";
 
-import React, { useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
-import { useStore } from "@/lib/store";
-
 interface TokenFlowParticle3DProps {
   activeTokenIndex?: number;
   isPlaying?: boolean;

@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useStore } from "@/lib/store";
-import { CHAPTERS, REF_MODELS } from "@/lib/walkthrough";
-import { fmtCount } from "@/lib/format";
+import { CHAPTERS } from "@/lib/walkthrough";
 import { Panel, Badge, TOKENS } from "./primitives";
 
 export default function WalkthroughSidebar({

@@ -3,7 +3,6 @@
 import React from "react";
 import { useStore } from "@/lib/store";
 import { GraphViewMode } from "@/lib/types";
-import { getCitationsForModel } from "@/lib/citations";
 
 export function ModelOverviewPanel() {
   const data = useStore((s) => s.data);
@@ -25,8 +24,6 @@ export function ModelOverviewPanel() {
   const vocabSize = m?.vocab_size || 151936;
   const dtype = m?.torch_dtype || m?.quantization || "float32";
   const backend = data?.provenance?.backend || "hf_local";
-
-  const citations = getCitationsForModel(architecture, m);
 
   const tokens = data?.tokens || [
     { index: 0, text: "Name", piece: "Name", id: 2437, is_special: false },

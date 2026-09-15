@@ -13,7 +13,6 @@ import { TokenPacketSystem } from "./TokenPacketSystem";
 import { GqaVisualization3D } from "./GqaVisualization3D";
 import { AttentionBeams3D } from "./AttentionBeams3D";
 import { OperationLabel } from "./OperationLabel";
-import { ComponentInspectMode } from "./inspect/ComponentInspectMode";
 
 const NUM_LAYERS = 24;
 
@@ -36,13 +35,9 @@ export function SpatialArchitectureScene() {
   const arch = useStore((s) => s.arch);
   const arch3dLayer = useStore((s) => s.arch3dLayer);
   const arch3dOpKind = useStore((s) => s.arch3dOpKind);
-  const arch3dOpId = useStore((s) => s.arch3dOpId);
-  const selectArch3dOp = useStore((s) => s.selectArch3dOp);
   const enterInspectMode = useStore((s) => s.enterInspectMode);
-  const inspectingComponentId = useStore((s) => s.inspectingComponentId);
   const setSelectedTensor = useStore((s) => s.setSelectedTensor);
   const selectedTensor = useStore((s) => s.selectedTensor);
-  const setCameraMode = useStore((s) => s.setCameraMode);
 
   const m = arch?.metadata;
   const numLayers = m?.num_layers || data?.num_layers || NUM_LAYERS;

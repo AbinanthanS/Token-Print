@@ -12,7 +12,6 @@ import GenerationScene from "./scenes/GenerationScene";
 import WalkthroughScene from "./scenes/WalkthroughScene";
 import { PostProcessingPipeline } from "./scenes/PostProcessingPipeline";
 import { GlobalCameraController } from "./camera/GlobalCameraController";
-import { InspectCameraRig } from "./scenes/inspect/InspectCameraRig";
 import {
   cameraOverview,
   cameraForLayer,
@@ -45,94 +44,6 @@ function Brightness() {
   const brightness = useStore((s) => s.brightness);
   const gl = useThree((s) => s.gl);
   useEffect(() => { gl.toneMappingExposure = brightness; }, [gl, brightness]);
-  return null;
-}
-
-/**
- * Camera controller that reads from the arch3d interaction state and smoothly
- * lerps to the correct target.
- */
-function CameraController({
-  controlsRef,
-}: {
-  controlsRef: React.RefObject<OrbitControlsImpl | null>;
-}) {
-  const { camera } = useThree();
-
-  const cameraMode     = useStore((s) => s.cameraMode);
-  const arch3dOpId     = useStore((s) => s.arch3dOpId);
-  const arch3dLayer    = useStore((s) => s.arch3dLayer);
-  const selectedTokenIndex = useStore((s) => s.selectedTokenIndex);
-  const userOrbiting   = useStore((s) => s.userOrbiting);
-  const setUserOrbiting = useStore((s) => s.setUserOrbiting);
-
-  const targetPos = useRef(new THREE.Vector3());
-  const targetLook = useRef(new THREE.Vector3());
-
-  useEffect(() => {
-    const { position, target } = cameraOverview(N_LAYERS);
-    targetPos.current.set(...position);
-    targetLook.current.set(...target);
-    camera.position.set(...position);
-    if (controlsRef.current) {
-      controlsRef.current.target.set(...target);
-      controlsRef.current.update();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    let pos: [number, number, number];
-    let tgt: [number, number, number];
-
-    switch (cameraMode) {
-      case "overview": {
-        const r = cameraOverview(N_LAYERS);
-        pos = r.position; tgt = r.target;
-        break;
-      }
-      case "layer": {
-        const l = arch3dLayer >= 0 ? arch3dLayer : 0;
-        const r = cameraForLayer(l);
-        pos = r.position; tgt = r.target;
-        break;
-      }
-      case "operation": {
-        const r = cameraForOp(arch3dOpId, N_LAYERS);
-        pos = r.position; tgt = r.target;
-        break;
-      }
-      case "token_follow": {
-        const tokenX = (selectedTokenIndex - 2) * 2.2 * 0.35;
-        const l = arch3dLayer >= 0 ? arch3dLayer : 0;
-        const { target: layerTgt } = cameraForLayer(l);
-        pos = [tokenX + 4, layerTgt[1] + 2, layerTgt[2] + 12];
-        tgt = [tokenX, layerTgt[1], layerTgt[2]];
-        break;
-      }
-    }
-
-    const dist = targetLook.current.distanceTo(new THREE.Vector3(...tgt));
-    targetPos.current.set(...pos);
-    targetLook.current.set(...tgt);
-
-    // If switching views or large vertical jump (>25 units), snap immediately
-    if ((dist > 25 || cameraMode === "operation") && controlsRef.current) {
-      setUserOrbiting(false);
-      camera.position.set(...pos);
-      controlsRef.current.target.set(...tgt);
-      controlsRef.current.update();
-    }
-  }, [cameraMode, arch3dOpId, arch3dLayer, selectedTokenIndex, camera, setUserOrbiting]);
-
-  useFrame((_, delta) => {
-    if (userOrbiting || !controlsRef.current) return;
-    const factor = Math.min(delta * 6.0, 0.25);
-    camera.position.lerp(targetPos.current, factor);
-    controlsRef.current.target.lerp(targetLook.current, factor);
-    controlsRef.current.update();
-  });
-
   return null;
 }
 

@@ -169,8 +169,6 @@ async function main() {
     prev = cur;
   }
 
-  const final = parseDebug(await debugDiv().innerText());
-
   // ── Autoplay: crank speed to 4×, start play, watch camera move across transitions
   // Reset to chapter 0 via the sidebar chapter list (more reliable than keyboard).
   await page.locator("button", { hasText: "Overview" }).first().click();
@@ -202,11 +200,9 @@ async function main() {
   await page.mouse.move(box.x + box.width / 2 + 260, box.y + box.height / 2 + 120, { steps: 6 });
   await page.mouse.up();
   await sleep(400);
-  const manualMode = parseDebug(await debugDiv().innerText()).mode;
   await page.locator('button[title="Next chapter (→)"]').first().click().catch(() => {});
   await sleep(500);
   const afterChapter = parseDebug(await debugDiv().innerText());
-  const manualOk = manualMode === "MANUAL" && afterChapter.mode === "CINEMATIC";
 
   await browser.close();
 

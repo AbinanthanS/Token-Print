@@ -3,7 +3,6 @@
 import { useEffect, useMemo } from "react";
 import { useStore } from "@/lib/store";
 import { CHAPTERS } from "@/lib/walkthrough";
-import { fmtShape } from "@/lib/format";
 import DataProvenanceBadge from "./DataProvenanceBadge";
 import { TOKENS } from "./primitives";
 

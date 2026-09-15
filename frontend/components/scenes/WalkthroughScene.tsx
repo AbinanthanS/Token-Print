@@ -179,8 +179,6 @@ function WalkthroughCameraController({
   const controls = useThree((s) => s.controls) as OrbitControlsImpl | null;
   const chapterIdx  = useStore((s) => s.wtChapter);
   const nLayers     = useStore((s) => s.arch?.metadata?.num_layers) ?? 24;
-  const archMeta    = useStore((s) => s.arch?.metadata);
-  const wtPlaying   = useStore((s) => s.wtPlaying);
   const wtCamMode   = useStore((s) => s.wtCamMode);
   const setWtCamMode = useStore((s) => s.setWtCamMode);
   const wtCamDebug  = useStore((s) => s.wtCamDebug);

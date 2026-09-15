@@ -5,7 +5,7 @@ import { useThree, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { useStore } from "@/lib/store";
-import { LAYOUT, nodeWorldPos, cameraOverview } from "../ArchitectureLayout";
+import { nodeWorldPos, cameraOverview } from "../ArchitectureLayout";
 import { getComponentDefinition } from "./componentDefinitions";
 
 const N_LAYERS = 24;

@@ -10,7 +10,6 @@ export function AttentionMatrixWidget() {
   const selectedLayer = useStore((s) => s.selectedLayer);
   const setLayer = useStore((s) => s.setLayer);
   const selectedHead = useStore((s) => s.selectedHead);
-  const setHead = useStore((s) => s.setHead);
   const loading = useStore((s) => s.loading);
 
   if (loading) {

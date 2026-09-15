@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import React, { Component, ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import { useStore } from "@/lib/store";
 
 const Scene = dynamic(() => import("./Scene"), {
   ssr: false,
@@ -59,7 +58,6 @@ function webglAvailable(): boolean {
 }
 
 export default function SceneLoader() {
-  const mode = useStore((s) => s.mode);
   const [available, setAvailable] = useState<boolean | null>(null);
   const [status, setStatus] = useState<"ok" | "lost">("ok");
   const [sceneKey, setSceneKey] = useState(0);

@@ -12,7 +12,6 @@ import {
   cameraForOp,
   nodeWorldPos,
 } from "@/components/scenes/ArchitectureLayout";
-import { opById } from "@/components/scenes/TransformerOperationGraph";
 
 const N_LAYERS = 24;
 
@@ -237,7 +236,6 @@ export function CinematicCameraController({
       tgt = r.target;
     } else if (cameraMode === "token_follow") {
       const tokenX = (selectedTokenIndex - 2) * 2.2 * 0.35;
-      const l = arch3dLayer >= 0 ? arch3dLayer : 0;
       const [, ly] = nodeWorldPos(arch3dOpId, N_LAYERS);
       pos = [tokenX + 4.5, ly + 2.5, 11];
       tgt = [tokenX, ly, 0];

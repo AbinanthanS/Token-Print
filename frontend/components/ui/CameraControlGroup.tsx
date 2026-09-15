@@ -19,7 +19,6 @@ export function CameraControlGroup({
   const traceSource = useStore((s) => s.traceSource);
   const downloadTrace = useStore((s) => s.downloadTrace);
   const setTraceGalleryOpen = useStore((s) => s.setTraceGalleryOpen);
-  const mode = useStore((s) => s.mode);
 
   const navButtons: { id: NavMode; label: string; title: string }[] = [
     { id: "OVERVIEW", label: "OVERVIEW", title: "Reset camera to full model view (Overview)" },

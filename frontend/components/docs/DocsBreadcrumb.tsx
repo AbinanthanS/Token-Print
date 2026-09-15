@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { DOC_SECTIONS, getSectionForSlug } from "@/lib/docsNav";
+import { getSectionForSlug } from "@/lib/docsNav";
 
 interface DocsBreadcrumbProps {
   slug: string;

@@ -39,12 +39,6 @@ export function GenerationDebugOverlay() {
 
   if (mode !== "generation" || !devMode) return null;
 
-  const totalSteps = EXECUTION_GRAPH.timeline.length;
-  const progressPct = Math.round(((currentStep.stepIndex + 1) / totalSteps) * 100);
-
-  const activeEdge = currentStep.edgeId ? EXECUTION_GRAPH.edges.get(currentStep.edgeId) : null;
-  const nextStep = EXECUTION_GRAPH.timeline[currentStep.stepIndex + 1] ?? null;
-
   const camDebug = typeof window !== "undefined" ? (window as unknown as Record<string, any>).__ns_cam_debug : null;
 
   return (

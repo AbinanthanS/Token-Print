@@ -3,7 +3,7 @@
 import { useMemo, useEffect, useState, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Billboard, Text, Line } from "@react-three/drei";
-import { Color, Group, PerspectiveCamera, Vector3, QuadraticBezierCurve3 } from "three";
+import { Color, Group, Vector3, QuadraticBezierCurve3 } from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 
 import { useStore } from "@/lib/store";
@@ -18,17 +18,12 @@ import { opColorOf, opKindOf, type OpKind } from "@/lib/sceneColors";
 const GAP = 2.6;
 const KV_CAP = 40;
 
-const tmp = new Vector3();
-const tmp2 = new Vector3();
-
 export default function GenerationScene() {
   const meta = useStore((s) => s.genMeta);
   const archMeta = useStore((s) => s.arch?.metadata);
   const opIndex = useStore((s) => s.opIndex);
   const setOpIndex = useStore((s) => s.setOpIndex);
   const enterInspectMode = useStore((s) => s.enterInspectMode);
-  const followMode = useStore((s) => s.followMode);
-  const view2D = useStore((s) => s.view2D);
   const playIndex = useStore((s) => s.playIndex);
   const frameCount = useStore((s) => s.genFrames.length);
   const frame = useStore((s) => (s.playIndex >= 0 ? s.genFrames[s.playIndex] : null));
@@ -72,9 +67,7 @@ export default function GenerationScene() {
     return Math.max(0, Math.min(ls[idx] / max, 1));
   }, [frame, activeLayer]);
 
-  const { camera } = useThree();
   const controls = useThree((s) => s.controls) as OrbitControlsImpl | null;
-  const userOrbiting = useStore((s) => s.userOrbiting);
   const setUserOrbiting = useStore((s) => s.setUserOrbiting);
 
   // Always keep OrbitControls enabled so the user can rotate freely.

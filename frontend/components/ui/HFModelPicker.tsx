@@ -164,7 +164,6 @@ export function HFModelPicker({ isOpen = true, onClose = () => {}, onSelectModel
   const [isInspecting, setIsInspecting] = useState(false);
   const [inspectError, setInspectError] = useState<string | null>(null);
 
-  const [cloudHover, setCloudHover] = useState(false);
   const [localHover, setLocalHover] = useState(false);
   const [closeHover, setCloseHover] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { assetUrl } from "@/lib/assets";
 
 export function HomeNavbar() {

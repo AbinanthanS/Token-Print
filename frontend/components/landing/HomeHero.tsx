@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { assetUrl } from "@/lib/assets";
 import { ArrowRight } from "lucide-react";
-import { GithubIcon } from "./GithubIcon";
 import { Reveal } from "./motion/primitives/Reveal";
 
 export function HomeHero() {

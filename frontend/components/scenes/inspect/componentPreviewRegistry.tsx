@@ -11,7 +11,7 @@
  * Rotation: slow Y-axis rotation around geometric center (0.06 rad/s).
  */
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
