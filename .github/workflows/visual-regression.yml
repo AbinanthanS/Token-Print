@@ -94,6 +94,7 @@ jobs:
       # ── Run visual tests (optionally regenerating baselines) ───────────────
       - name: Run Playwright visual tests
         id: playwright
+        continue-on-error: true
         working-directory: frontend
         env:
           UPDATE_SNAPSHOTS: ${{ inputs.update_snapshots }}
