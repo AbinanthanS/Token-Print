@@ -31,9 +31,8 @@ for _mod in _HEAVY_MODS:
 # Add backend directory to sys.path (matches existing test pattern).
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-import app.main as main_module
 import pytest
-from app.main import GGUF_DIR, app
+from app.main import GGUF_DIR, app, main_module
 from starlette.testclient import TestClient
 
 # ---------------------------------------------------------------------------
