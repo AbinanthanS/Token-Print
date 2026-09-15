@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createStore } from "zustand/vanilla";
 import { createArchitectureSlice } from "../../lib/store/architectureSlice";
+import { createArch3dSlice } from "../../lib/store/arch3dSlice";
 import { createGenerationSlice } from "../../lib/store/generationSlice";
 import { createTraceSlice } from "../../lib/store/traceSlice";
 import type { StoreState } from "../../lib/store/types";
@@ -10,11 +11,13 @@ import { createUISlice } from "../../lib/store/uiSlice";
 function makeStore() {
   return createStore<StoreState>()((set, get, api) => ({
     ...createArchitectureSlice(set, get, api),
+    ...createArch3dSlice(set, get, api),
     ...createGenerationSlice(set, get, api),
     ...createTraceSlice(set, get, api),
     ...createUISlice(set, get, api),
     loadGgufFile: async () => undefined,
     startGeneration: () => undefined,
+    stopGeneration: () => undefined,
     loadTrace: async () => undefined,
     classroomStep: () => undefined,
   }));
