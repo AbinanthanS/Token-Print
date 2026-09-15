@@ -47,11 +47,16 @@ jobs:
         working-directory: backend
         run: |
           python -m uvicorn app.main:app --app-dir . --port 8000 &
-          # Wait until the backend is healthy (up to 120 s for model load).
-          for i in $(seq 1 60); do
-            curl -sf http://localhost:8000/architecture && echo "backend ready" && break
+          # Wait for full backend readiness (up to 240 s for model load).
+          for i in $(seq 1 120); do
+            if curl -sf http://localhost:8000/architecture > /dev/null 2>&1; then
+              echo "backend ready"
+              sleep 5  # Extra wait for model initialization
+              break
+            fi
             sleep 2
           done
+          if [ $i -eq 121 ]; then echo "Backend failed to start"; exit 1; fi
 
       # ── Frontend setup ────────────────────────────────────────────────────
       - uses: actions/setup-node@v4
