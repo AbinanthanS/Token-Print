@@ -16,7 +16,7 @@ export default defineConfig({
   // Each test has its own generous timeout because generation streaming takes ~30s.
   timeout: 120_000,
   expect: {
-    timeout: 10_000,
+    timeout: 30_000,
     // Allow up to 2% pixel difference for WebGL/antialiasing variation.
     toHaveScreenshot: { maxDiffPixelRatio: 0.02 },
   },

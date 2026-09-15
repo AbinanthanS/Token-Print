@@ -143,6 +143,12 @@ export const useGenerationFrames = () => useStore((state) => state.genFrames);
 export const useTraceBreakpoints = () => useStore((state) => state.breakpoints);
 export const useUIMode = () => useStore((state) => state.mode);
 
+/** Domain slice store hooks for modular state access (ENG-13). */
+export const useArchitectureStore = <T>(selector: (state: StoreState) => T) => useStore(selector);
+export const useGenerationStore = <T>(selector: (state: StoreState) => T) => useStore(selector);
+export const useTraceStore = <T>(selector: (state: StoreState) => T) => useStore(selector);
+export const useUiStore = <T>(selector: (state: StoreState) => T) => useStore(selector);
+
 /** Parse URL search parameters and restore the corresponding store state. */
 export function restoreFromUrl(): Partial<StoreState> {
   if (typeof window === "undefined") return {};
