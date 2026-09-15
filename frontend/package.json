@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "verify-data": "bash scripts/verify-data.sh",
+    "test:unit": "playwright test --project=unit",
     "test:visual": "playwright test",
     "test:store": "node scripts/test-store.cjs"
   },
