@@ -19,13 +19,14 @@ export const createArchitectureSlice: StateCreator<StoreState, [], [], Architect
     set({ archLoading: true, archError: null });
     try {
       const raw = await fetchArchitecture(modelId);
-      set({ arch: { ...raw, tensors: annotateTensors(raw.tensors) }, archLoading: false });
+      set({ arch: { ...raw, tensors: annotateTensors(raw.tensors) }, archLoading: false, archError: null });
     } catch (e) {
       set({ archLoading: false, archError: e instanceof Error ? e.message : "Failed to load architecture" });
     }
   },
   setArch: (arch) => set({
     arch: arch ? { ...arch, tensors: annotateTensors(arch.tensors) } : null,
+    archError: null,
     selectedTensor: null,
     hoveredTensor: null,
   }),

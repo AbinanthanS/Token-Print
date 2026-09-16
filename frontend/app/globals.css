@@ -3610,6 +3610,12 @@ code {
   line-height: 1.6;
 }
 
+.dbg-empty-error {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--danger, #e5484d);
+}
+
 /* --- Bottom bar (docked timeline) --- */
 .bottom-bar {
   grid-area: bot;

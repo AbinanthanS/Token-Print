@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useStore } from "@/lib/store";
 import DebugInspector from "./DebugInspector";
 import HeadInspector from "./HeadInspector";
@@ -33,15 +34,34 @@ import MoERoutingViz from "./MoERoutingViz";
  */
 export default function DebuggerPane() {
   const arch = useStore((s) => s.arch);
+  const archLoading = useStore((s) => s.archLoading);
+  const archError = useStore((s) => s.archError);
+  const loadArchitecture = useStore((s) => s.loadArchitecture);
   const genMeta = useStore((s) => s.genMeta);
   const opIndex = useStore((s) => s.opIndex);
   const catalog = genMeta?.op_catalog;
+
+  // The debugger needs the live model's architecture (tensor catalog, metadata).
+  // Generation / the HF picker do not populate `arch`, so load it here on entry
+  // and surface a retry whenever it is missing or a prior attempt failed.
+  useEffect(() => {
+    if (!arch && !archLoading) loadArchitecture();
+  }, [arch, archLoading, loadArchitecture]);
 
   if (!arch) {
     return (
       <div className="dbg-empty">
         Load a model first, then enter Debugger mode to inspect every tensor,
         benchmark layer timing, compare configs, or ablate heads.
+        {archError && <div className="dbg-empty-error">{archError}</div>}
+        <button
+          className="chip-btn"
+          style={{ marginTop: 10 }}
+          onClick={() => loadArchitecture()}
+          disabled={archLoading}
+        >
+          {archLoading ? "Loading model…" : "Load live Qwen model"}
+        </button>
       </div>
     );
   }
