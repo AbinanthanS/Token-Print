@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased
+
+
+### Features
+
+* **frontend:** add frame-producer seam for in-browser generation ([#311](https://github.com/Sudharsanselvaraj/Token-Print/issues/311)) ([#315](https://github.com/Sudharsanselvaraj/Token-Print/issues/315)) ([3d30b14](https://github.com/Sudharsanselvaraj/Token-Print/commit/3d30b14741c6356d35ec4cdb1981a6fcb382720e))
+* **frontend:** split Zustand store into modular domain slices and hooks (ENG-13) ([77371e4](https://github.com/Sudharsanselvaraj/Token-Print/commit/77371e40008ba854588daa5b9db8781c2a91e09d))
+* **frontend:** add Vitest unit test suite for formulas, format, and playback (ENG-07) ([fc732f6](https://github.com/Sudharsanselvaraj/Token-Print/commit/fc732f61db2e5fb85a98aa5a0bb81d5627c0e42c))
+* **frontend:** build interactive Provenance Inspector panel (DESIGN-05) ([#257](https://github.com/Sudharsanselvaraj/Token-Print/issues/257)) ([d3c4558](https://github.com/Sudharsanselvaraj/Token-Print/commit/d3c4558eb879e7673350916664d5e3d568d687c7))
+* **frontend:** separate real timing from proxy timing in UI (ENG-15) ([#227](https://github.com/Sudharsanselvaraj/Token-Print/issues/227)) ([08c24ef](https://github.com/Sudharsanselvaraj/Token-Print/commit/08c24eff53bc41b70407e6637cbc831aec9ce7df))
+* **generation:** surface needle-in-haystack recall probe in decode UI ([#302](https://github.com/Sudharsanselvaraj/Token-Print/issues/302)) ([36a31b9](https://github.com/Sudharsanselvaraj/Token-Print/commit/36a31b968835fd2dec90d79f5f961d6bc8990235))
+* **camera:** unify 3D camera control bar across Architecture, Generation, Walkthrough, and Debugger modes ([a8b2dc3](https://github.com/Sudharsanselvaraj/Token-Print/commit/a8b2dc34d1f1271b6234ef0fe0e90fc312be8575))
+* **responsive:** gate TokenPrint 3D interactive workspace behind desktop-only check ([1cf42bf](https://github.com/Sudharsanselvaraj/Token-Print/commit/1cf42bf2150353c9cb45db21fbcc11728b55f200))
+
+
+### Bug Fixes
+
+* **frontend:** resolve explorer/replay bug backlog ([#272](https://github.com/Sudharsanselvaraj/Token-Print/issues/272) [#274](https://github.com/Sudharsanselvaraj/Token-Print/issues/274) [#275](https://github.com/Sudharsanselvaraj/Token-Print/issues/275) [#276](https://github.com/Sudharsanselvaraj/Token-Print/issues/276) [#282](https://github.com/Sudharsanselvaraj/Token-Print/issues/282)) ([#308](https://github.com/Sudharsanselvaraj/Token-Print/issues/308)) ([8cb67a0](https://github.com/Sudharsanselvaraj/Token-Print/commit/8cb67a0f8ed9f0d1cf33339863fd6ed301da2134))
+* **frontend:** use proper ‹error› marker for throwing watch expressions ([#307](https://github.com/Sudharsanselvaraj/Token-Print/issues/307)) ([7a1923e](https://github.com/Sudharsanselvaraj/Token-Print/commit/7a1923ed34f5b6a7792557e016379c69c8540cd8))
+* **hf:** explain GGUF weights-only repos in model explorer ([#306](https://github.com/Sudharsanselvaraj/Token-Print/issues/306)) ([a041be3](https://github.com/Sudharsanselvaraj/Token-Print/commit/a041be39014e1394e50899c77f578b9df503c5e3))
+* **hf:** distinguish gated repos from missing ones when inspecting ([#305](https://github.com/Sudharsanselvaraj/Token-Print/issues/305)) ([711c88a](https://github.com/Sudharsanselvaraj/Token-Print/commit/711c88a23407923a52617005b868af0374e56708))
+* clamp selectedLayer/selectedHead to 0 when num_layers/num_heads is 0 ([#283](https://github.com/Sudharsanselvaraj/Token-Print/issues/283)) ([#284](https://github.com/Sudharsanselvaraj/Token-Print/issues/284)) ([ba12f05](https://github.com/Sudharsanselvaraj/Token-Print/commit/ba12f056f65043117824fad5f4911acd471dbf7f))
+* **scene:** seed pointcloud layout jitter for deterministic visuals ([#100](https://github.com/Sudharsanselvaraj/Token-Print/issues/100)) ([3a8c4ad](https://github.com/Sudharsanselvaraj/Token-Print/commit/3a8c4ad8878deceac7651695b68e2991c497997b))
+* **fix:** route isolation + HF Model Explorer client-side fallback ([#269](https://github.com/Sudharsanselvaraj/Token-Print/issues/269)) ([f69e2c9](https://github.com/Sudharsanselvaraj/Token-Print/commit/f69e2c9ede97dbe7e72fdb19b40c85a5e1a08618))
+
 ## [0.2.0](https://github.com/Sudharsanselvaraj/Token-Print/compare/token-print-frontend-v0.1.0...token-print-frontend-v0.2.0) (2026-09-13)
 
 

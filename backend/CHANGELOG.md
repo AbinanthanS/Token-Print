@@ -1,5 +1,27 @@
 # Changelog
 
+## Unreleased
+
+
+### Features
+
+* **backend:** implement KV cache state machine for speculative decoding (ENG-04) ([#268](https://github.com/Sudharsanselvaraj/Token-Print/issues/268)) ([5d61e31](https://github.com/Sudharsanselvaraj/Token-Print/commit/5d61e3162e6687ede2eaa4194239ea6041c54403))
+* **backend:** CORS for deployed origins + Oracle ARM bootstrap script ([94b82cd](https://github.com/Sudharsanselvaraj/Token-Print/commit/94b82cd32b33377ee42eeae3ceb01a814fc91983))
+* **backend:** surface GGUF_ENGINE_AVAILABLE flag and metadata-only mode ([#228](https://github.com/Sudharsanselvaraj/Token-Print/issues/228)) ([3454d06](https://github.com/Sudharsanselvaraj/Token-Print/commit/3454d0615b68bc04fa3b810e6bf78a6234c56411))
+
+
+### Bug Fixes
+
+* **backend:** align GGUF backend adapter with engine API ([#309](https://github.com/Sudharsanselvaraj/Token-Print/issues/309)) ([110c026](https://github.com/Sudharsanselvaraj/Token-Print/commit/110c026dd4967482b2ec0e5e2b732dbf578b2786))
+* **backend:** fix WebSocket worker thread live-lock on disconnect ([#270](https://github.com/Sudharsanselvaraj/Token-Print/issues/270)) ([#292](https://github.com/Sudharsanselvaraj/Token-Print/issues/292)) ([6fd4e5c](https://github.com/Sudharsanselvaraj/Token-Print/commit/6fd4e5c0537f42c4d780f5da3ebde56f30bf588f))
+* **backend:** fix websocket crash on null temperature and errors ([#280](https://github.com/Sudharsanselvaraj/Token-Print/issues/280)) ([#291](https://github.com/Sudharsanselvaraj/Token-Print/issues/291)) ([f967195](https://github.com/Sudharsanselvaraj/Token-Print/commit/f96719541fee6de4b9e349cca3c9a39e81c6338d))
+* **backend:** surface proper HTTP 404/401 errors in hf/inspect ([#277](https://github.com/Sudharsanselvaraj/Token-Print/issues/277)) ([#290](https://github.com/Sudharsanselvaraj/Token-Print/issues/290)) ([9552758](https://github.com/Sudharsanselvaraj/Token-Print/commit/9552758d7ae032abea1728553db076cad3cc0552))
+* **backend:** report fed cache length in sliding-window mode ([#281](https://github.com/Sudharsanselvaraj/Token-Print/issues/281)) ([#287](https://github.com/Sudharsanselvaraj/Token-Print/issues/287)) ([b394f2f](https://github.com/Sudharsanselvaraj/Token-Print/commit/b394f2f44ebe8752d2e07f0cd7673ab6273a9822))
+* **backend:** add CGNAT and carrier subnets to SSRF blocked networks list ([#278](https://github.com/Sudharsanselvaraj/Token-Print/issues/278)) ([#288](https://github.com/Sudharsanselvaraj/Token-Print/issues/288)) ([1d45b88](https://github.com/Sudharsanselvaraj/Token-Print/commit/1d45b8840124580bfbbe8c815b2484a90ddc5670))
+* **backend:** disable redirects and cap body size in image fetch for SSRF guard ([#271](https://github.com/Sudharsanselvaraj/Token-Print/issues/271)) ([#289](https://github.com/Sudharsanselvaraj/Token-Print/issues/289)) ([7d46f03](https://github.com/Sudharsanselvaraj/Token-Print/commit/7d46f031df6c38ef72c3fe59165076db1c9bb9b2))
+* **backend:** repair corrupt encoding of requirements-gguf.txt ([#229](https://github.com/Sudharsanselvaraj/Token-Print/issues/229)) ([d0be661](https://github.com/Sudharsanselvaraj/Token-Print/commit/d0be66177c2cf616108a87bab5c87c3fb9fbf796))
+* **fix:** route isolation + HF Model Explorer client-side fallback ([#269](https://github.com/Sudharsanselvaraj/Token-Print/issues/269)) ([f69e2c9](https://github.com/Sudharsanselvaraj/Token-Print/commit/f69e2c9ede97dbe7e72fdb19b40c85a5e1a08618))
+
 ## [0.2.0](https://github.com/Sudharsanselvaraj/Token-Print/compare/token-print-backend-v0.1.0...token-print-backend-v0.2.0) (2026-09-13)
 
 
