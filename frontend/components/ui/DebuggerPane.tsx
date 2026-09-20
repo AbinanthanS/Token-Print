@@ -43,10 +43,13 @@ export default function DebuggerPane() {
 
   // The debugger needs the live model's architecture (tensor catalog, metadata).
   // Generation / the HF picker do not populate `arch`, so load it here on entry
-  // and surface a retry whenever it is missing or a prior attempt failed.
+  // and leave failures visible until the user explicitly retries.
   useEffect(() => {
-    if (!arch && !archLoading) loadArchitecture();
-  }, [arch, archLoading, loadArchitecture]);
+    // Another mount effect (or StrictMode replay) may already have started a
+    // request since this render. Check the live state to avoid duplicate loads.
+    const { arch, archLoading, archError } = useStore.getState();
+    if (!arch && !archLoading && !archError) loadArchitecture();
+  }, [arch, archLoading, archError, loadArchitecture]);
 
   if (!arch) {
     return (
