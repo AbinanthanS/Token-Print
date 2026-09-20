@@ -26,9 +26,9 @@
 ---
 
 <p align="center">
-  <img src=".github/assets/demo.gif" alt="TokenPrint — live demo" width="820" />
+  <a href=".github/assets/demo.mp4"><img src=".github/assets/demo.gif" alt="TokenPrint — architecture inspection, live generation, guided walkthrough, and debugger" width="1000" /></a>
   <br />
-  <sub><a href=".github/assets/demo.mp4">▶ full demo (.mp4)</a></sub>
+  <sub><a href=".github/assets/demo.mp4">▶ Watch the high-quality demo (.mp4)</a></sub>
 </p>
 
 Every other LLM visualizer gives you one of two things: a static architecture diagram, or a
