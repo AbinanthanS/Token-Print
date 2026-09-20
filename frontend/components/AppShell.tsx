@@ -71,7 +71,11 @@ export default function AppShell() {
     if (snapshot.opIndex !== undefined) useStore.getState().setOpIndex(snapshot.opIndex);
     if (snapshot.wtChapter !== undefined) useStore.getState().setWtChapter(snapshot.wtChapter);
     if (snapshot.embedMode) useStore.getState().setEmbedMode(snapshot.embedMode);
-    if (!arch) loadArchitecture();
+    // The debugger's child effect may have already started the initial load.
+    // Read live state so mount effects and StrictMode do not duplicate requests
+    // or silently retry a failure that should remain visible to the user.
+    const initial = useStore.getState();
+    if (!initial.arch && !initial.archLoading && !initial.archError) loadArchitecture();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
